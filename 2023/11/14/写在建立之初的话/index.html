@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="John Doe">
+
+
+
+
+
+<title>写在建立之初的话 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">写在建立之初的话</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 14, 2023&nbsp;&nbsp;20:47:53</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/">日记/随笔</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>今天算是一个比较重要的日子吧，我第一次建立了自己的个人博客，个人认为必须要有一个正式的说明，来让我以后回溯学习历程的时候有迹可循。</p>
+<p>先对所有可能看到这篇博文的人做个自我介绍，本人为南开大学软件工程专业本科在读的一名大二学生，目前的专业课压力比较小，（注：压力小，指的是当前课程不多且没有觉得课程内容完全听不懂，不是说绩点很高的意思）所以闲来无事便开始捣鼓一些我认为有意义的东西。写博客，就是我想到有意义的东西之一。</p>
+<p>我人生的前十八年都过着无忧无虑的生活，无忧无虑也中规中矩，对于读软件工程专业这件事，完全是发生在计划之外的，我并非来自小镇，但却的的确确是一个小镇做题家。第一次学习编程课的时候，我光是安装软件就几乎花了一天的时间，更不用说后面的 debug ，遇到技术问题我还在用着 360浏览器 ，查着百度文库。并非说这两样东西不好，而是对于一个大学生需要的知识面来说，这两样东西并不能提高学习的效率。</p>
+<p>因此，在这个专业学习了一年余，自以为也是付出了不少努力，但我总觉得，我甚至还没有摸到CS领域的大门。这里面固然有我入门太晚的原因，但我认为也有国内CS教育生态还远远没有达到理想的状态的原因。我们在获取好的学习资源时不得不解决语言的难题，我作为一个江苏考生，自以为英语水平至少已经达到了国内中九的平均水平，但在观看国外的教程时仍觉得有些吃力，更不用说其他学生了。而国内常用的搜索引擎却广告泛滥，内容良莠不齐，难以迅速筛选到需要的信息。</p>
+<p>我在做C++程序设计助教的时候，给学生 debug 感到很绝望，于是教他们怎么调试。在讲课的过程中突然在想我学会这些方法，花了多少时间呢？一开始根本没有人教我debug的，我已经记不清自己是怎么学会的，只知道当时一定熬了许多个大夜，去搜索一个个本该很简单的错误原因。</p>
+<p>建立这个博客，不仅是希望记录下本人的学习历程，也是希望可以为后来之人提供一条路，我至今记得鲁迅的话：这世界本没有路，走的人多了，也就成了路。</p>
+<p>–写于2023.11.14晚 津南中心馆</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2023/11/14/%E5%86%99%E5%9C%A8%E5%BB%BA%E7%AB%8B%E4%B9%8B%E5%88%9D%E7%9A%84%E8%AF%9D/">http://example.com/2023/11/14/%E5%86%99%E5%9C%A8%E5%BB%BA%E7%AB%8B%E4%B9%8B%E5%88%9D%E7%9A%84%E8%AF%9D/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/"># 日记/随笔</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/11/19/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Hexo%E9%83%A8%E7%BD%B2%E5%8F%91%E5%B8%83%E5%88%B0GitHub%E4%B8%AD%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98/">如何解决Hexo部署发布到GitHub中的连接问题</a>
+            
+            
+            <a class="next" rel="next" href="/2023/11/14/hello-world/">Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
