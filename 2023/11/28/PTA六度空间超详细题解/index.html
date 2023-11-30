@@ -174,10 +174,10 @@
 <p>这里我们就需要再引入几个指针来辅助我们解决问题了。可能因为笔者比较迟钝，听陈越姥姥的讲解还有一点云里雾里，所以在这里再说一说笔者的理解。</p>
 <p>因为我们需要记录你在到达某个结点时是不是中间只通过了五个人，所以实际上遍历的层数包括起始结点在内，不可以超过6，一旦等于6，那么后续的结点就不用再计入count了，也就是说，我们应该在这时终止while循环。</p>
 <p>陈越姥姥用的是level，last和tail。<br>level很好理解，就是层数嘛，那从一个结点开始就是1，但问题在于怎么增加这个level呢，什么情况下增加呢。对于第一个节点来说，自然是到它的所有相邻结点遍历完的时候该层结束，然后level可以加一，那么问题在于，如果是第二层上的某个结点，他的最后一个相邻结点不一定就代表这层结束了，为什么？</p>
-<p>特地画了个图：<br><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/image.jpg"><br>先看上面这幅，为了更加真实地体现这是一个图，我还有一些其他的点之间的边，但为了使讲解更加清晰，将不重要的边标成了灰色。</p>
+<p>特地画了个图：<br><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/QQ%E5%9B%BE%E7%89%8720231129151713.jpg"><br>先看上面这幅，为了更加真实地体现这是一个图，我还有一些其他的点之间的边，但为了使讲解更加清晰，将不重要的边标成了灰色。</p>
 <p>如果我们从1开始，去找1的六度顶点的话，如下图所示，为了防止干扰，我将本情况中不重要的边去掉，并将每层标成不同的颜色。</p>
 <p>那么我们回到上面的问题，可以看到如果按照顺时针进行遍历，1的最后一个相邻结点是6，6也是这层的最后一个结点，那么在此时level应该+1变成2，但我们重新回到结点2去开始遍历时结点2的相邻节结点，第一个是1，但1已经被标记为visited了，所以下一个……2的最后一个结点是8，但8并不是蓝色这一层的最后一个结点，所以我们就不可以仅凭2的结点就判断这一层是否结束，我们需要两个指针。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/w1iVjFxnbz.jpg"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/QQ%E5%9B%BE%E7%89%8720231129151704.jpg"></p>
 <p>一个指针是<code>tail</code>，<code>tail</code>是更新得比较频繁的一个，每经过一个未被访问的结点，就将<code>tail</code>指向当前结点，由于队列先进先出，所以不必担心顺序上的错乱，<code>tail</code>一定是沿着顺时针移动的。</p>
 <p> 另一个指针是<code>last</code>。我们在最开始将<code>last</code>指针指向起始点，也就是<code>1</code>。然后每次循环完结点<code>V</code>所有相邻的结点后，判断当前的<code>V</code>是否等于<code>last</code>，如果等于<code>last</code>，那么就可以认为这一层已经结束，将<code>level+1</code>，并将<code>last</code>指向此时的<code>tail</code>。</p>
 <p> 让我们来捋一下：起初，<code>last</code>指向的是<code>1</code>，在<code>1</code>的相邻结点全部遍历完时，判断<code>last</code>是否等于此时的<code>V</code>，也就是<code>1</code>，等于，此时<code>tail</code>指向的位置是<code>6</code>，那么我们可以将<code>last</code>指向<code>6</code>了。下一轮继续，当遍历完<code>2</code>的相邻结点时，发现<code>tail</code>指向<code>8</code>，但此时的<code>V</code>是<code>2</code>，并不等于当前的<code>last(6)</code>，因此我们就继续从队列中取出下一个元素<code>3</code>，然后继续遍历。</p>
