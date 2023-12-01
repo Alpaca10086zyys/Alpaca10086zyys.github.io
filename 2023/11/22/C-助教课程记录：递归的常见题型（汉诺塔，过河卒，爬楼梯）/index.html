@@ -41,6 +41,45 @@
     
     
         
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
     
 
 
@@ -221,28 +260,43 @@
         </header>
 
         <div class="post-content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>递归是一种非常非常重要的编程思想，它可以把复杂的问题拆分成一个一个的子问题。虽然它并没有性能上的优势，甚至还有时候比循环的性能更糟糕，但是由于它在部分场合要比简单暴力的循环要容易理解得多，所以它仍然具有一定的学习价值。</p>
-<h2 id="汉诺塔问题-Hanoi"><a href="#汉诺塔问题-Hanoi" class="headerlink" title="汉诺塔问题(Hanoi)"></a>汉诺塔问题(Hanoi)</h2><p>想必很多朋友都玩过这种玩具，三个柱子，以及若干个从大到小的带孔圆盘，大的盘不可以放在小的盘上，盘必须套在柱子上，不可以放到一边，一次只能移动一个盘到另一个柱子上，如何让操作最省，将汉诺塔从最左边的柱子移向最右边的柱子呢？<br>我们来看一下笔者亲自画的图例（顺便一说，我研究了很久才搞明白如何搭建免费图床，如果后面有时间我也会写一个引用图片的教程）<br><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/img/Hanoi.jpg" alt="hanoi"></p>
-<p>这里有两个圆盘，也就是二阶的汉诺塔。<br>这里很简单，先把红色盘移到中间的柱子，再将黄色盘移到最右边，然后再将红色盘移动到最右边，三步，完成了。</p>
+            <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>递归是一种非常非常重要的编程思想，它可以把复杂的问题拆分成一个一个的子问题。虽然它并没有性能上的优势，甚至还有时候比循环的性能更糟糕，但是由于它在部分场合要比简单暴力的循环要容易理解得多，所以它仍然具有一定的学习价值。</p>
+<h2 id="汉诺塔问题hanoi"><a class="markdownIt-Anchor" href="#汉诺塔问题hanoi"></a> 汉诺塔问题(Hanoi)</h2>
+<p>想必很多朋友都玩过这种玩具，三个柱子，以及若干个从大到小的带孔圆盘，大的盘不可以放在小的盘上，盘必须套在柱子上，不可以放到一边，一次只能移动一个盘到另一个柱子上，如何让操作最省，将汉诺塔从最左边的柱子移向最右边的柱子呢？<br />
+我们来看一下笔者亲自画的图例（顺便一说，我研究了很久才搞明白如何搭建免费图床，如果后面有时间我也会写一个引用图片的教程）<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/img/Hanoi.jpg" alt="hanoi" /></p>
+<p>这里有两个圆盘，也就是二阶的汉诺塔。<br />
+这里很简单，先把红色盘移到中间的柱子，再将黄色盘移到最右边，然后再将红色盘移动到最右边，三步，完成了。</p>
 <p>那如果圆盘数量增加到3，4，5，6，……呢？</p>
 <p>这里我们就要学会怎么模拟了，这里有三个圆盘，我们先将上面的两个小的看作一个整体，那么整体过程就可以看作是上面的二阶汉诺塔移动了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/img/Hanoi_2.jpg" alt="Hanoi_2"><br>所以，抽象地解释，汉诺塔的移动从本质上来说就分为三步：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/img/Hanoi_2.jpg" alt="Hanoi_2" /><br />
+所以，抽象地解释，汉诺塔的移动从本质上来说就分为三步：</p>
 <ul>
 <li>把上方部分移到中间</li>
 <li>把最大盘移到右边</li>
 <li>把上方部分移到右边</li>
 </ul>
-<p>请注意，如果把柱子从左往右标号为1，2，3的话，那么1、2号柱子的物理意义其实是相同的，怎么理解呢，也就是说，当最上方的n-1个圆盘存在于中介位置时，将其移动到目标柱子3号柱的过程是与它目前处在1还是2无关的，比如说存在于2号柱，也就是左下图的情况，你可以在脑海里将1和2两个柱子互换一下，就变得和上面n&#x3D;2的物理过程一模一样了。</p>
+<p>请注意，如果把柱子从左往右标号为1，2，3的话，那么1、2号柱子的物理意义其实是相同的，怎么理解呢，也就是说，当最上方的n-1个圆盘存在于中介位置时，将其移动到目标柱子3号柱的过程是与它目前处在1还是2无关的，比如说存在于2号柱，也就是左下图的情况，你可以在脑海里将1和2两个柱子互换一下，就变得和上面n=2的物理过程一模一样了。</p>
 <p>我们用代码来实现一下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Hanoi</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B, vector&lt;<span class="type">int</span>&gt;&amp; C)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n = A.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">move</span>(n,A,B,C);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">move</span><span class="params">(<span class="type">int</span> n,vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B, vector&lt;<span class="type">int</span>&gt;&amp; C)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(n==<span class="number">1</span>)&#123;</span><br><span class="line">        	C.<span class="built_in">push_back</span>(A.<span class="built_in">back</span>());</span><br><span class="line">        	A.<span class="built_in">pop_back</span>();</span><br><span class="line">        	<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">        <span class="built_in">move</span>(n<span class="number">-1</span>,A,C,B); <span class="comment">//将A上面n-1个通过C移到B</span></span><br><span class="line">        C.<span class="built_in">push_back</span>(A.<span class="built_in">back</span>());<span class="comment">//将A最后一个移到C</span></span><br><span class="line">        A.<span class="built_in">pop_back</span>();<span class="comment">//此时A为空</span></span><br><span class="line">        <span class="built_in">move</span>(n<span class="number">-1</span>,B,A,C); <span class="comment">//将B上面n-1个通过空的A移到C</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a>爬楼梯</h2><p>楼梯有 $ N $ 阶，上楼可以一步上一阶，也可以一步上二阶。<br>编一个程序，计算共有多少种不同的走法。</p>
-<p>爬楼梯问题在实质上是一个斐波那契数列，斐波那契数列的通项公式是这样的：<br>$$  F [ n ] &#x3D; F [ n - 1 ] + F [ n - 2 ] ( n &gt; &#x3D; 2 , F [ 0 ] &#x3D; 1 , F [ 1 ] &#x3D; 1 )  $$</p>
+<h2 id="爬楼梯"><a class="markdownIt-Anchor" href="#爬楼梯"></a> 爬楼梯</h2>
+<p>楼梯有 $ N $ 阶，上楼可以一步上一阶，也可以一步上二阶。<br />
+编一个程序，计算共有多少种不同的走法。</p>
+<p>爬楼梯问题在实质上是一个斐波那契数列，斐波那契数列的通项公式是这样的：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo><mo>=</mo><mi>F</mi><mo stretchy="false">[</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo>+</mo><mi>F</mi><mo stretchy="false">[</mo><mi>n</mi><mo>−</mo><mn>2</mn><mo stretchy="false">]</mo><mo stretchy="false">(</mo><mi>n</mi><mo>&gt;</mo><mo>=</mo><mn>2</mn><mo separator="true">,</mo><mi>F</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mi>F</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo>=</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F [ n ] = F [ n - 1 ] + F [ n - 2 ] ( n &gt; = 2 , F [ 0 ] = 1 , F [ 1 ] = 1 )  
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">]</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></p>
 <p>知道了这个显然就很好编程了，但是我们还是来看一下原理的推导，我研究了许多篇博文，对原理的讲解都不算太侧重，今天我们详细地分解一下。</p>
-<p>首先，思想上和上面的汉诺塔问题非常地相似，都是把复杂的问题化成一个个子问题的嵌套。<br>爬1阶楼梯，显然只有一种方法，即直接爬1阶。（不存在爬两阶超过它的情况）<br>爬2阶楼梯，则有两种方法，一次1阶，爬2次，和1次2阶，爬1次。<br>那么爬3阶楼梯呢，我们可以这么看，从最后上楼梯的方案来分类，如果最后一次爬了2阶，那么前面就一共爬了1阶，只有1种方法；如果最后一次爬了1阶，那么前面就一共爬了2阶，有2种方法。1+2,也就是3。</p>
+<p>首先，思想上和上面的汉诺塔问题非常地相似，都是把复杂的问题化成一个个子问题的嵌套。<br />
+爬1阶楼梯，显然只有一种方法，即直接爬1阶。（不存在爬两阶超过它的情况）<br />
+爬2阶楼梯，则有两种方法，一次1阶，爬2次，和1次2阶，爬1次。<br />
+那么爬3阶楼梯呢，我们可以这么看，从最后上楼梯的方案来分类，如果最后一次爬了2阶，那么前面就一共爬了1阶，只有1种方法；如果最后一次爬了1阶，那么前面就一共爬了2阶，有2种方法。1+2,也就是3。</p>
 <p>那么更多阶的情况，假设是n阶，都可以用n-1和n-2的情况去反推。</p>
-<h2 id="过河卒"><a href="#过河卒" class="headerlink" title="过河卒"></a>过河卒</h2><p>实在是来不及写了，只画了个草图，先用这个讲课，回头再补全。<br><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/342f79fb8c2f649ecf6a40025f14513c.jpg" alt="image"><br>题目要求在这里：<br>棋盘上 A 点有一个过河卒，需要走到目标 B 点。卒行走的规则：可以向下、或者向右。同时在棋盘上 C 点有一个对方的马，该马所在的点和所有跳跃一步可达的点称为对方马的控制点。因此称之为“马拦过河卒”。</p>
+<h2 id="过河卒"><a class="markdownIt-Anchor" href="#过河卒"></a> 过河卒</h2>
+<p>实在是来不及写了，只画了个草图，先用这个讲课，回头再补全。<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/342f79fb8c2f649ecf6a40025f14513c.jpg" alt="image" /><br />
+题目要求在这里：<br />
+棋盘上 A 点有一个过河卒，需要走到目标 B 点。卒行走的规则：可以向下、或者向右。同时在棋盘上 C 点有一个对方的马，该马所在的点和所有跳跃一步可达的点称为对方马的控制点。因此称之为“马拦过河卒”。</p>
 <p>棋盘用坐标表示，A 点 (0,0)、B 点 (n,m)，同样马的位置坐标是需要给出的。</p>
 <p>现在要求你计算出卒从 A 点能够到达 B 点的路径的条数，假设马的位置是固定不动的，并不是卒走一步马走一步。</p>
 <p>如果你想亲自去尝试一下这个题目，链接放在<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1002">这里</a></p>
