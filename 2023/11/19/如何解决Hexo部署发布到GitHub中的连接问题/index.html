@@ -224,21 +224,24 @@
             <p>我们都知道Hexo小白最常用到的两条操作为:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g #生成页面</span><br><span class="line">hexo d #部署发布</span><br></pre></td></tr></table></figure>
 <p>但在笔者熟悉和摸索这个博客框架时，因为频繁使用这两条操作而遇到了各种报错，但大体上为以下几类情况：</p>
-<h3 id="Connection-was-reset"><a href="#Connection-was-reset" class="headerlink" title="Connection was reset"></a>Connection was reset</h3><p>报错信息大致如下👇</p>
+<h3 id="connection-was-reset"><a class="markdownIt-Anchor" href="#connection-was-reset"></a> Connection was reset</h3>
+<p>报错信息大致如下👇</p>
 <blockquote>
-<p>fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/xxxx.github.io.git/">https://github.com/xxxx.github.io.git/</a>‘: Recv failure: Connection was reset</p>
+<p>fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/xxxx.github.io.git/">https://github.com/xxxx.github.io.git/</a>’: Recv failure: Connection was reset</p>
 </blockquote>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>依次将如下两条语句复制到git中后，点击回车。</p>
+<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
+<p>依次将如下两条语句复制到git中后，点击回车。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
 <p>然后在电脑上同时按下win+R,在运行窗口中输入cmd打开命令提示符，输入以下指令清理DNS缓存：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig/flushdns</span><br></pre></td></tr></table></figure>
 <p>如此，就可以正常地将更改上传到博客了。别的地方使用Git也是同样道理。</p>
-<h3 id="Connection-timed-out-Couldn’t-connect-to-server"><a href="#Connection-timed-out-Couldn’t-connect-to-server" class="headerlink" title="Connection timed out&#x2F; Couldn’t connect to server"></a>Connection timed out&#x2F; Couldn’t connect to server</h3><p>报错信息大致如下👇</p>
+<h3 id="connection-timed-out-couldnt-connect-to-server"><a class="markdownIt-Anchor" href="#connection-timed-out-couldnt-connect-to-server"></a> Connection timed out/ Couldn’t connect to server</h3>
+<p>报错信息大致如下👇</p>
 <blockquote>
-<p>fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/Alpaca10086zyys/Alpaca10086zyys.github.io.git/">https://github.com/Alpaca10086zyys/Alpaca10086zyys.github.io.git/</a>‘: Failed to connect to github.com port 443 after 21106 ms: Couldn’t connect to server</p>
+<p>fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/Alpaca10086zyys/Alpaca10086zyys.github.io.git/">https://github.com/Alpaca10086zyys/Alpaca10086zyys.github.io.git/</a>’: Failed to connect to <a target="_blank" rel="noopener" href="http://github.com">github.com</a> port 443 after 21106 ms: Couldn’t connect to server</p>
 </blockquote>
-<h4 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h4><p>在git bash的命令行里输入：</p>
+<h4 id="解决办法-2"><a class="markdownIt-Anchor" href="#解决办法-2"></a> 解决办法</h4>
+<p>在git bash的命令行里输入：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
 <p>几乎全网的解答都有这两句话，可是在笔者多次实践下，这个方案时而灵敏时而不灵，于是笔者又参考了以下方案，一步到位解决了问题。</p>
 <p>这个问题本质上是因为本机系统代理端口和Git端口不一致导致的，解决办法是将git配置修改为本机端口号。</p>
