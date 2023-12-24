@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>如何判断有向图是否存在环以及变式 | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">如何判断有向图是否存在环以及变式</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 24, 2023&nbsp;&nbsp;14:45:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>因为上一篇无向图是否含环的文章取得了还不错的反馈，以及笔者刚好也在复习数据结构的知识，因此加更一篇有向图存在环的判断，我们可以看看两者之间是否具有互相可参考性。</p>
+<p>有向无环图的主要应用是AOV和AOE分别是顶点制约关系和过程制约关系。<br />
+AOV的核心在于拓扑排序，重心在。而</p>
+<h2 id="aov-模板题leetcode-207-课程表i"><a class="markdownIt-Anchor" href="#aov-模板题leetcode-207-课程表i"></a> AOV 模板题Leetcode 207 课程表Ⅰ</h2>
+<p>我们还是借一个最简单的模板题来看一下题目的需求，我找到了一个非常完美的模板题，这里贴出链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/course-schedule/description/">Leetcode 207课程表Ⅰ</a></p>
+<h3 id="一些废话时间紧张可以跳过"><a class="markdownIt-Anchor" href="#一些废话时间紧张可以跳过"></a> 一些废话（时间紧张可以跳过）</h3>
+<p>咱们都知道计算机专业有先导课程对吧，这个例子也是非常的经典了，在陈越姥姥的数据结构课里也有提到。</p>
+<p>首先咱们要抽象出题目要求：给你一些课程之间的先导关系，你为他们检查是否可以排好课表，衡量标准就是，两个课不能互为先导课。不能有悖论的关系。</p>
+<p>就像你得上Github学怎么科学上网，但你不会科学上网，你就打不开Github一样。 这肯定是不行的，必须要有位贵人先教会你科学上网，你才可以打开Github，去浏览更多的技术信息对吧（doge）。</p>
+<h3 id="拓扑排序解法及其优化"><a class="markdownIt-Anchor" href="#拓扑排序解法及其优化"></a> 拓扑排序解法及其优化</h3>
+<p>拓扑排序的核心思路是通过入度的变化来不断筛选出当前阶段可以上的课并记录完成情况，其实也是一种动态规划的思想。</p>
+<h4 id="核心步骤"><a class="markdownIt-Anchor" href="#核心步骤"></a> 核心步骤</h4>
+<ul>
+<li>首先保存这个图的信息：每对边的指向。（方法不限，一会再讲优化）</li>
+<li>保存图信息的同时记录每个顶点的入度信息（用一个数组即可，数组下标即为顶点编号）</li>
+<li>筛选入度为0的顶点，（因为他们是不需要先导课的课程）将他们标记为已经修读并且遍历他们指向的后继课程，将这些后继课程的入度-1。这个过程是在模拟修读当前不需要先导课的课程。</li>
+<li>继续筛选修改之后入度为0的课程，重复这个过程，直到没有入度为0的课程。</li>
+<li>计算当前修读完的课程总数，如果等于所有课程的总数，那么可以完成排课。</li>
+</ul>
+<p>整个过程就是一个判断有向图是否存在环的过程，大致思路如上。该方法逻辑的严谨性在于，如果两个顶点之间存在双向的路径，那么这两个顶点谁的入度都不会先变成0，所以也就不可能被加到count里。因此count是否等于课程总数是一个判断是否能排课的充分条件。</p>
+<p>那么如何实现呢？</p>
+<h4 id="用到的结构和变量"><a class="markdownIt-Anchor" href="#用到的结构和变量"></a> 用到的结构和变量</h4>
+<ol>
+<li>一个二维的向量matrix用来存储先导关系，定义方式<code>vector&lt;vector&lt;int&gt;&gt; matrix</code>，向量<code>matrix[i]</code>里面存储的所有顶点都是i顶点的后继。当然也可以用邻接矩阵去存储，只不过那样需要耗费更多的空间去存储空信息，更多的时间去遍历。</li>
+<li>一个int类型的变量<code>count</code>用来记录完成课程的数量，初始化为0。</li>
+<li>一个大小为<code>numCourses</code>的int数组<code>inDegree</code>，全部初始化为0，表示各个顶点的入度。</li>
+<li>一个队列start用来存储每轮的入度为0的点，定义方式<code>queue&lt;int&gt; start</code>。</li>
+</ol>
+<h4 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码：</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canFinish</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">matrix</span>(numCourses);</span><br><span class="line">        <span class="type">int</span> *inDegree=<span class="keyword">new</span> <span class="type">int</span>[numCourses]&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;prerequisites.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            matrix[prerequisites[i][<span class="number">0</span>]].<span class="built_in">push_back</span>(prerequisites[i][<span class="number">1</span>]);</span><br><span class="line">            inDegree[prerequisites[i][<span class="number">1</span>]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        queue&lt;<span class="type">int</span>&gt; start;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;numCourses;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(inDegree[i]==<span class="number">0</span>)</span><br><span class="line">                start.<span class="built_in">push</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!start.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            count++;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;matrix[start.<span class="built_in">front</span>()].<span class="built_in">size</span>();j++)&#123;</span><br><span class="line">                inDegree[matrix[start.<span class="built_in">front</span>()][j]]--;</span><br><span class="line">                <span class="keyword">if</span>(inDegree[matrix[start.<span class="built_in">front</span>()][j]]==<span class="number">0</span>)</span><br><span class="line">                    start.<span class="built_in">push</span>(matrix[start.<span class="built_in">front</span>()][j]);</span><br><span class="line">            &#125;</span><br><span class="line">            start.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(count==numCourses)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的解法在时间性能和空间性能上超过了98%和76%的C++用户。</p>
+<h2 id="aoe模板题-leetcode-课程表ii"><a class="markdownIt-Anchor" href="#aoe模板题-leetcode-课程表ii"></a> AOE模板题 Leetcode 课程表Ⅱ</h2>
+<p>这里贴出链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/course-schedule-ii/solutions/">Leetcode 210课程表Ⅱ</a></p>
+<p>如果你真的理解了上面的思路的话，这道题几乎没有变化，只需要加上几行代码。事实上，这道题并不是一个标准的关键路径题，它只要求经过所有课程，但它的边却仍然是无权的。所以我们只要根据要求轻微调整：</p>
+<h3 id="代码-2"><a class="markdownIt-Anchor" href="#代码-2"></a> 代码</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里需要注意输入的prerequisites略有变化，一条边前后两点的意义不同</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; res;</span><br><span class="line"><span class="comment">/*207的代码一样，count++时</span></span><br><span class="line"><span class="comment">res.push_back(start.front());*/</span></span><br><span class="line"><span class="keyword">if</span>(count!=numCourses)</span><br><span class="line">    res.<span class="built_in">erase</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+<h2 id="aoe经典题型-工程最短消耗"><a class="markdownIt-Anchor" href="#aoe经典题型-工程最短消耗"></a> AOE经典题型 工程最短消耗</h2>
+<p>给出一个工程中N个阶段的时间消耗和依赖关系，试求出工程的最短时间消耗。<br />
+N行数据，每行包含从1起始的阶段编号S、时间消耗T、以及用分号隔开的所依赖的不同阶段编号【如果不依赖其他阶段则此项为空】</p>
+<p>这里有一个需要考虑并行的操作。因为只需要把相同层级的工序同时进行，这样最大的消耗就是这些工序中最耗时的一个。</p>
+<h3 id="拓扑排序核心代码"><a class="markdownIt-Anchor" href="#拓扑排序核心代码"></a> 拓扑排序核心代码</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">实现需要先准备好这几个东西</span></span><br><span class="line"><span class="comment">int matrix[MAX][MAX]&#123;0&#125;;</span></span><br><span class="line"><span class="comment">int indegree[MAX]&#123; 0 &#125;;</span></span><br><span class="line"><span class="comment">int cost[MAX]&#123; 0 &#125;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">解释一下为啥和上面不一样，因为这个是笔者初学时用的方法，完成OJ作业的，直接用邻接矩阵做了。</span></span><br><span class="line"><span class="comment">然后现在复习比较忙就不优化了，当时也写了不少注释，凑合看吧看官老爷，不懂的话也可以私信我QAQ</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">TopSort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">	<span class="type">int</span> least_cost[MAX]&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">		least_cost[i] = INF;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= N;i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (indegree[id[i]] == <span class="number">0</span>) &#123;</span><br><span class="line">			q.<span class="built_in">push</span>(id[i]);</span><br><span class="line">			least_cost[id[i]] = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> cnt=<span class="number">0</span>,last;</span><br><span class="line">	<span class="keyword">while</span> (!q.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">		<span class="type">int</span> V = q.<span class="built_in">front</span>(),W;</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (matrix[i][V]) &#123;<span class="comment">//找到V的前驱i</span></span><br><span class="line">				<span class="keyword">if</span> (least_cost[i] + cost[i] &gt; least_cost[V]||least_cost[V]==INF)&#123;</span><br><span class="line">					least_cost[V] = least_cost[i] + cost[i];<span class="comment">//更新最小的值</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (cnt == N - <span class="number">1</span>)last = V;</span><br><span class="line">		cnt++;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (matrix[V][i]) &#123;<span class="comment">//如果有邻接点</span></span><br><span class="line">				W = i;</span><br><span class="line">				<span class="keyword">if</span> (--indegree[W] == <span class="number">0</span>)</span><br><span class="line">					q.<span class="built_in">push</span>(W);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (cnt != N) </span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;error&quot;</span>;<span class="comment">//有环 报错</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		cout &lt;&lt; least_cost[last] + cost[last];<span class="comment">//输出最短的消耗</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2023/12/24/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%89%E5%90%91%E5%9B%BE%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E7%8E%AF%E4%BB%A5%E5%8F%8A%E5%8F%98%E5%BC%8F/">http://example.com/2023/12/24/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%89%E5%90%91%E5%9B%BE%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E7%8E%AF%E4%BB%A5%E5%8F%8A%E5%8F%98%E5%BC%8F/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Graph/"># Graph</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2023/12/23/%E4%B8%B4%E8%BF%91%E6%9C%9F%E6%9C%AB%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%BB%E7%BB%93%E5%92%8C%E5%B1%95%E6%9C%9B/">临近期末的一点总结和展望</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
