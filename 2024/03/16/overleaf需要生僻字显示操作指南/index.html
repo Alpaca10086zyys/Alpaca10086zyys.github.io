@@ -127,6 +127,71 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
@@ -144,12 +209,56 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7-%E6%8A%80%E8%83%BD/">实用工具/技能</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            
+            <h3 id="解释一下问题产生的原因"><a class="markdownIt-Anchor" href="#解释一下问题产生的原因"></a> 解释一下问题产生的原因</h3>
+<p>这个问题很少会有人遇到，因为大多数人在论文中用不到生僻字，但如果真的遇到了，在overleaf中，生僻字不被正确显示，而只显示了一个方框中的F，应该怎么做呢？</p>
+<p>我们在LaTex写作的文档中使用中文，最简单的方法都是使用 CTeX 和 XeLaTeX，在文档中加上一行：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;ctex&#125;</span><br></pre></td></tr></table></figure>
+<p>CTeX 使用的 Fandol 字体对于生僻字支持不好. 对于名字中有生僻字的人就很不友好. 名字有时就显示为一个方框里面有一个 F.</p>
+<h3 id="通过更换字体来解决"><a class="markdownIt-Anchor" href="#通过更换字体来解决"></a> 通过更换字体来解决</h3>
+<p>最简单粗暴的解决这个问题的办法就是换一个支持生僻字的字体，比如Google的noto字体。</p>
+<h3 id="基本步骤"><a class="markdownIt-Anchor" href="#基本步骤"></a> 基本步骤</h3>
+<ol>
+<li>下载字体，并且将格式转化为ttc</li>
+<li>将字体上传到overleaf</li>
+<li>设置中文字体</li>
+</ol>
+<h3 id="操作中可能遇到的问题"><a class="markdownIt-Anchor" href="#操作中可能遇到的问题"></a> 操作中可能遇到的问题</h3>
+<h4 id="去哪下载字体"><a class="markdownIt-Anchor" href="#去哪下载字体"></a> 去哪下载字体？</h4>
+<p>链接放在这里了:<a target="_blank" rel="noopener" href="https://fonts.google.com/">https://fonts.google.com/</a></p>
+<p>如果想要预览下字体效果可以看一下这篇博文：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fd96fb3daea1">https://www.jianshu.com/p/fd96fb3daea1</a></p>
+<h4 id="格式不是ttc怎么办"><a class="markdownIt-Anchor" href="#格式不是ttc怎么办"></a> 格式不是.ttc怎么办？</h4>
+<p>直接暴力改后缀即可，替大家试过了，win11可行。</p>
+<h4 id="上传到哪里"><a class="markdownIt-Anchor" href="#上传到哪里"></a> 上传到哪里？</h4>
+<p>这里👇🏻<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/overleaf%E5%AD%97%E4%BD%93%E4%B8%8A%E4%BC%A0.png" alt="" /></p>
+<h4 id="如何引入这个字体"><a class="markdownIt-Anchor" href="#如何引入这个字体"></a> 如何引入这个字体？</h4>
+<p>在文章开头加上这样一行：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\setCJKmainfont</span>&#123;NotoSerifCJKsc-Regular.ttc&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以把本文档的中文字以选定的字体显示了。</p>
+<p><strong>请注意</strong>:</p>
+<p>这里不必和本文完全相同，你上传的什么字体，就把那个文件名写进大括号。但如果目的是纠正生僻字显示，请确保你选择的字体可以兼容生僻字。</p>
+<h4 id="局部引入"><a class="markdownIt-Anchor" href="#局部引入"></a> 局部引入？</h4>
+<p>局部引入的语法是：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="keyword">\CJKfontspec</span>&#123;NotoSerifCJKsc-Regular.ttc&#125; 想要修改字体的部分&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="设置英文字体"><a class="markdownIt-Anchor" href="#设置英文字体"></a> 设置英文字体？</h4>
+<p>如果还想单独设置英文字体，可以用这个语法：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\setmainfont</span>&#123;texgyreschola-regular.ttc&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，也可以选择overleaf服务器提供的字体，如Times New Roman。</p>
+<p>至此，我在此次纠错中学会的东西已经全部呈现完毕，如果还有其他的困惑也不要来问我，你的所见即是我的所得。</p>
+<p>参考博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Mr-wuuu/p/16069588.html">关于LaTeX中文生僻字的解决</a></p>
+
         </div>
 
         
@@ -181,6 +290,10 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/LaTex/"># LaTex</a>
+                    
+                        
                 </span>
             </div>
             <div>
