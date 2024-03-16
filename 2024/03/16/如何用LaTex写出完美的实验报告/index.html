@@ -13,7 +13,7 @@
 
 
 
-<title>求最大公约数 | Alpaca Zhang&#39;s Blog</title>
+<title>如何用LaTex写出完美的实验报告 | Alpaca Zhang&#39;s Blog</title>
 
 
 
@@ -40,45 +40,6 @@
 
     
     
-        
-            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-    });
-</script>
-<!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
         
     
 
@@ -235,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">求最大公约数</h1>
+            <h1 class="post-title">如何用LaTex写出完美的实验报告</h1>
             
                 <div class="post-meta">
                     
@@ -244,14 +205,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">三月 3, 2024&nbsp;&nbsp;15:04:07</a>
+                        Date: <a href="#">三月 16, 2024&nbsp;&nbsp;14:39:34</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                                <a href="/categories/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7-%E6%8A%80%E8%83%BD/">实用工具/技能</a>
                             
                         </span>
                     
@@ -260,29 +221,12 @@
         </header>
 
         <div class="post-content">
-            <p>这是一个非常基础也非常容易想不起来的算法，我在大一的时候曾经多次和类似的入门算法打交道，但是到了今天突然要用的时候还是特别容易忘，没有办法一下子有思路。</p>
-<p>因为总是希望产出更好的东西，所以所学的鸡毛蒜皮不敢直接写出来，所以一拖再拖，总是违背了自己的初心。所以今天有想法的时候，不敢拖延，急忙动笔。</p>
-<h2 id="辗转相除法求最大公约数"><a class="markdownIt-Anchor" href="#辗转相除法求最大公约数"></a> 辗转相除法求最大公约数</h2>
-<p>求最大公约数的时候，稍有基础的人都会一下子想到辗转相除法，但辗转相除法是什么呢，又怎么去证明辗转相除法的合理性呢。我会在这篇文章中尽可能详细地解释并且找到一个好联想回忆的记忆方法。</p>
-<h3 id="文字描述"><a class="markdownIt-Anchor" href="#文字描述"></a> 文字描述</h3>
-<p>用较小数除较大数，再用出现的余数（第一余数）去除除数，再用出现的余数（第二余数）去除第一余数，如此反复，直到最后余数是0为止。如果是求两个数的最大公约数，那么最后的除数就是这两个数的最大公约数。</p>
-<h3 id="伪码描述"><a class="markdownIt-Anchor" href="#伪码描述"></a> 伪码描述</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Euclid(m,n)  </span><br><span class="line">输入：非负整数 m, n，其中m与n不全为0,  </span><br><span class="line">输出：m 与 n 的最大公约数</span><br><span class="line">1. while m&gt;0 do</span><br><span class="line">2. r &lt;- n mod m</span><br><span class="line">3. n &lt;- m</span><br><span class="line">4. m &lt;- r</span><br><span class="line">5. return n</span><br></pre></td></tr></table></figure>
-<h3 id="动图例子"><a class="markdownIt-Anchor" href="#动图例子"></a> 动图例子</h3>
-<p>这里展示了一个求最大公约数的方法，求36和27的最大公约数。<br />
-<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0.gif" alt="最大公约数演示" /></p>
-<h3 id="原理解释"><a class="markdownIt-Anchor" href="#原理解释"></a> 原理解释</h3>
-<p>我们可以用一个比较直观的方法去记忆这个算法。</p>
-<p>首先，当我们要求两个数的最大公约数时，这个最大公约数要尽可能大，最大的情况就是等于两个数中较小的那一个。</p>
-<p>假设要求 $ a $ 和 $ b $ 的最大公约数，且已知 $ a&lt;b $ .</p>
-<p>我们先验证较小的数 $ a $ 是否为最大公约数，已知 $ a $ 一定为本身的约数，那么我们要做的就是看看他是不是 $ b $ 的约数，我们用 $ a $ 去除 $ b $ .</p>
-<p>余数为零，我们则可以判定最大公约数即为 $ a $ .</p>
-<p>余数不为零，则说明 $ a $ 不能整除 $ b $ ，可以得知 $ a $ 不是两个数的最大公约数，这样，我们应该继续往下去找最大公约数，因为 $ b $ 不能被 $ a $ 整除，会有一个余数，这个时候我们可以把b分成两部分，一部分是 $ b/a $ 的商（我们把它记为 $ c $ ）和 $ a $ 的乘积 $ a/c $ ，还有一部分就是余数（我们把它记为 $ d $ ）。</p>
-<p>显然 $ a $ 是 $ a*c $ 的约数，所以 $ a $ 和 $ d $ 的最大公约数 $ e $ ，也一定是 $ a*c $ 的约数，倘若我们能求出 $ a $ 和 $ d $ 的最大公约数 $ e $ ，那么它就是$ a $ ， $ d $ 和  $ a*c $ 的最大公约数。</p>
-<p>因为 $ b=a*c+d $ ， $ e $ 也是 $ a $ 和 $ b $ 的最大公约数。</p>
-<p>如此递归相除直至余数为零，这就是辗转相除法。</p>
-<h3 id="c代码"><a class="markdownIt-Anchor" href="#c代码"></a> C++代码</h3>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">gcd</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> b?<span class="built_in">gcd</span>(b,a%b):a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<p>我有预感，这会是一个要写很长时间的博文，我可能会需要几周的时间来把它补全，使之成为一个非常完备的LaTex实验报告教程，LaTex的资料在网上有很多，但是除了写论文以外，我们还可以用它来博取实验老师的欢心（划掉）。请注意一篇完美的实验报告不仅需要有用的实验内容和结果，也同样需要简洁美观大方的排版，用LaTex可以轻松地达到这个目的。</p>
+<h1 id="组成"><a class="markdownIt-Anchor" href="#组成"></a> 组成</h1>
+<p>我们需要</p>
+<hr />
+
         </div>
 
         
@@ -315,7 +259,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/"># 日记/随笔</a>
+                        <a href="/tags/LaTex/"># LaTex</a>
                     
                         
                 </span>
@@ -328,10 +272,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/03/16/%E5%A6%82%E4%BD%95%E7%94%A8LaTex%E5%86%99%E5%87%BA%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">如何用LaTex写出完美的实验报告</a>
+                <a class="prev" rel="prev" href="/2024/03/16/overleaf%E9%9C%80%E8%A6%81%E7%94%9F%E5%83%BB%E5%AD%97%E6%98%BE%E7%A4%BA%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">overleaf需要生僻字显示操作指南</a>
             
             
-            <a class="next" rel="next" href="/2023/12/24/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9C%89%E5%90%91%E5%9B%BE%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E7%8E%AF%E4%BB%A5%E5%8F%8A%E5%8F%98%E5%BC%8F/">如何判断有向图是否存在环以及变式</a>
+            <a class="next" rel="next" href="/2024/03/03/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/">求最大公约数</a>
             
         </section>
 
