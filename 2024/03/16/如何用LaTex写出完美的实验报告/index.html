@@ -234,6 +234,53 @@
 <li>实验结论</li>
 <li>支撑材料</li>
 </ol>
+<h3 id="实验概述"><a class="markdownIt-Anchor" href="#实验概述"></a> 实验概述</h3>
+<p>不必多说，主要就是介绍这个实验需要完成的任务以及基本的实验思路，最好简单地再提一下实验结果如何。下图为一个简单的示例：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E5%AE%9E%E9%AA%8C%E6%A6%82%E8%BF%B0.png" alt="" /></p>
+<h3 id="实验内容"><a class="markdownIt-Anchor" href="#实验内容"></a> 实验内容</h3>
+<p>实验内容可以说的就比较多，可以分为几个小标题，描述做了几个小实验（许多实验报告的任务都不是单个简单过程，会有明显的需要分布完成的小实验），还可以分一些标题来描述整体的思路，比如计算机软件类的实验，如果涉及到写代码就可以绘制流程图。</p>
+<h3 id="实验结论"><a class="markdownIt-Anchor" href="#实验结论"></a> 实验结论</h3>
+<p>不是所有实验都一定要有实验结论，因为计算机类的许多实验可能只是需要你掌握某个语法或者软件的使用，不一定需要一个结论。</p>
+<p>但是如果有数值计算方面的需要，则一定要有一个实验结论来进行总结。</p>
+<h3 id="支撑材料"><a class="markdownIt-Anchor" href="#支撑材料"></a> 支撑材料</h3>
+<p>实验过程中的照片，截图，数据表，代码文件等，都属于支撑材料，最好像这样写一个附件目录。<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E9%99%84%E4%BB%B6.png" alt="" /></p>
+<p>然后将附件直接接在文档的最后，或者附在报告所在的压缩包中。老师或者批改的助教不一定会仔细看你的附件代码，但是这个只是以防万一，如果你的实验结论有误，或者你的实验内容写的不够详细，附件就能起到支撑结论的作用。</p>
+<h2 id="optional-components"><a class="markdownIt-Anchor" href="#optional-components"></a> Optional components</h2>
+<h3 id="可视化图表"><a class="markdownIt-Anchor" href="#可视化图表"></a> 可视化图表</h3>
+<p>在我写报告两年的经验里，我认为最最能提高报告含金量的东西就是：🌟<strong>数据可视化</strong>🌟</p>
+<p>但是可视化并非易事，并不是简单的excel画个折线图，柱形图，选择什么样的图表可以让你的报告更加清晰地呈现出你的实验成果。比如java实验报告就要画UML图，普通算法题可以画流程图……</p>
+<p>这里推荐一个画图神器：<a target="_blank" rel="noopener" href="https://draw.io">draw.io</a></p>
+<h3 id="自动化计算数据手段"><a class="markdownIt-Anchor" href="#自动化计算数据手段"></a> 自动化计算数据手段</h3>
+<p>其实这个门槛倒不是很高，python很适合用于自动生成大量测试数据，以及自动计算数据。这个可以自己摸索啦。</p>
+<h3 id="美丽的排版之神-latex"><a class="markdownIt-Anchor" href="#美丽的排版之神-latex"></a> 美丽的排版之神----LaTex</h3>
+<p>终于引入主题：LaTex。本人终于要激动地宣布，尝试过那么多种写作工具，在实验报告这个赛道上，LaTex才是唯一的神！</p>
+<p>markdown语言虽然很简单易上手，但是在面对实验报告的任务时还是显得有些不是那么专业对口，因为md文档主要是面向程序文档的工具，虽然有诸如mathjax这样的插入公式的工具，且在语法高亮这个方面兼容性强，但是他的开发初衷毕竟是弱化格式注重内容，只保留了最基本的样式，在应对像实验报告这种需要一定美观性的任务显得有些力不从心。</p>
+<p>word其实也是一个很好用的工具，但把word用好的门槛并不低，尤其是当你需要非常便捷的目录编码时，word就显得更不好用了，如果你只是需要一个简洁美观的排版工具，那么LaTex是你的最佳选择。（唯一缺点是需要一点点的门槛）</p>
+<h1 id="用overleaf快速上手latex"><a class="markdownIt-Anchor" href="#用overleaf快速上手latex"></a> 用Overleaf快速上手Latex</h1>
+<p>关于LaTex，在bilibili有许多速成课，这里我只教一些bilibili不教的。</p>
+<h2 id="如何使用中文"><a class="markdownIt-Anchor" href="#如何使用中文"></a> 如何使用中文</h2>
+<p>只需在document体前面使用xeCJK宏包。但要记得在菜单栏里，把Compiler换成XeLaTex。</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;xeCJK&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何插入代码块并对其高亮"><a class="markdownIt-Anchor" href="#如何插入代码块并对其高亮"></a> 如何插入代码块并对其高亮</h2>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;listings&#125;</span><br><span class="line"><span class="keyword">\lstset</span>&#123;</span><br><span class="line">    <span class="comment">%language=Python,  % 设置语言为Python，如果同一个文档里用不同语言，那么就在插入的代码块里分别说明</span></span><br><span class="line">    basicstyle=<span class="keyword">\fontsize</span>&#123;9&#125;&#123;9&#125;<span class="keyword">\ttfamily</span>,  <span class="comment">% 设置基本字体样式</span></span><br><span class="line">    tabsize=4,  <span class="comment">% 设置制表符宽度</span></span><br><span class="line">    numbers=left,  <span class="comment">% 行号显示在左边</span></span><br><span class="line">    numberstyle=<span class="keyword">\tiny</span><span class="keyword">\color</span>&#123;gray&#125;,  <span class="comment">% 行号样式</span></span><br><span class="line">    breaklines=true,  <span class="comment">% 自动换行</span></span><br><span class="line">    frame=single,  <span class="comment">% 代码块框架</span></span><br><span class="line">    showstringspaces=false,</span><br><span class="line">    keywordstyle=<span class="keyword">\color</span>&#123;blue&#125;,  <span class="comment">% 关键词颜色</span></span><br><span class="line">    commentstyle=<span class="keyword">\color</span>&#123;black!40&#125;,  <span class="comment">% 注释颜色</span></span><br><span class="line">    stringstyle=<span class="keyword">\color</span>&#123;green!50!black&#125;,  <span class="comment">% 字符串颜色</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;lstlisting&#125;[language=java] <span class="comment">%修改为需要插入的语言，常见语言都支持，甚至支持SQL</span></span><br><span class="line">    public class HelloWorld &#123;</span><br><span class="line">        public static void main(String[] args) &#123;</span><br><span class="line">            System.out.println(&quot;Hello, World!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">\end</span>&#123;lstlisting&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何插入图片并调整细节"><a class="markdownIt-Anchor" href="#如何插入图片并调整细节"></a> 如何插入图片并调整细节</h2>
+<p>细节包括：</p>
+<ul>
+<li>调整大小</li>
+<li>添加心仪格式的题注</li>
+</ul>
+<p>比如，插入一张这样的图片，需要这些代码：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E5%B9%B6%E8%B0%83%E6%95%B4%E7%BB%86%E8%8A%82.png" alt="" /></p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;graphicx&#125; <span class="comment">% Required for inserting images</span></span><br><span class="line"><span class="keyword">\usepackage</span>&#123;float&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;caption&#125;</span><br><span class="line"><span class="keyword">\captionsetup</span>[figure]&#123;name=&#123;图&#125;,labelsep=space&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;figure&#125;[H] <span class="comment">%使图片不要胡乱浮动，就在插入代码的位置</span></span><br><span class="line">        <span class="keyword">\centering</span></span><br><span class="line">        <span class="keyword">\includegraphics</span>[scale=0.2]&#123;frog.jpg&#125; <span class="comment">% scale用于调整图片大小</span></span><br><span class="line">        <span class="keyword">\caption</span>&#123;frog&#125; <span class="comment">% 题注</span></span><br><span class="line">        <span class="keyword">\label</span>&#123;fig:enter-label&#125;</span><br><span class="line">  <span class="keyword">\end</span>&#123;figure&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何使行距变大"><a class="markdownIt-Anchor" href="#如何使行距变大"></a> 如何使行距变大</h2>
+<p>这是latex默认的行距，英文看着还好点，中文实在是有点挤，我们来调整一下。<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E8%B0%83%E6%95%B4%E8%A1%8C%E8%B7%9D%E5%89%8D.png" alt="" /></p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\linespread</span>&#123;1.5&#125;</span><br></pre></td></tr></table></figure>
+<p>如此，将行距调整为1.5倍，看起来就舒服多了。</p>
+<h2 id="如何使段落之间隔开一些距离"><a class="markdownIt-Anchor" href="#如何使段落之间隔开一些距离"></a> 如何使段落之间隔开一些距离</h2>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;parskip&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">这是文章的第一个段落。</span><br><span class="line"></span><br><span class="line">这是文章的第二个段落。</span><br><span class="line"></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>使用这个宏包的效果是取消段落的首行缩进，然后增加段落间距的。</p>
 
         </div>
 
