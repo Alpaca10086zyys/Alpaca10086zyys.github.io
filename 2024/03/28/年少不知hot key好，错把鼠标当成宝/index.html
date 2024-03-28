@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>年少不知hot key好，错把鼠标当成宝 | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">年少不知hot key好，错把鼠标当成宝</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 28, 2024&nbsp;&nbsp;15:12:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/">日记/随笔</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="关于记笔记的碎碎念"><a class="markdownIt-Anchor" href="#关于记笔记的碎碎念"></a> 关于记笔记的碎碎念</h2>
+<p>哈哈，这大概又是一篇要鸽很久的小文章，毕竟我是个p人嘛，这个学期的学习任务比上个学期重了好多，越来越没有时间捣鼓自己的小爱好了。</p>
+<p>顺便吐槽一句，Java是真的好难啊！（痛苦.jpg）😱😱😱</p>
+<p>今天上加瓦的时候，讲Stream及函数式编程，可能是投影质量太差的原因，坐在第一排也看不清老师在写什么，而且老师写得飞快，很多语法还没看懂，就已经下一页了，不得不说，像这种编程课，课堂内容你就图一乐吧，真能在课上学会点啥，就别指望了，还是老老实实去看黑马程序员吧（）</p>
+<p>不过，笔记还是得做，要学会记住得东西太多了，心急是不行的，自从认清自己是个笨人之后，许多事情就释怀了，按照自己的节奏来就好~</p>
+<h2 id="选择笔记工具"><a class="markdownIt-Anchor" href="#选择笔记工具"></a> 选择笔记工具</h2>
+<p>但是对于软件工程的学生来说，如果用传统手写笔记的话真的太不方便了，因为时不时得需要插入代码块，而手写代码真的很逆天，所以就得寻找一个支持代码的笔记软件，我曾经狂热地用markdown记笔记，并将其奉若神明。但是markdown最大的问题就是，不能勾画，而且可以预计的是markdown永远也不会支持勾画……（小声嘀咕）</p>
+<p>所以我选的笔记软件是OneNote，只需要自己装一个插件，就可以支持语法高亮，虽然不是特别智能（而且代码行数一多行号就会有轻微偏差，但是总体来说瑕不掩瑜），对于简单笔记来说足够了。</p>
+<p>别问为什么不用Typora，问就是没钱……对 没钱也不愿意整枪版，这就是我们strong姐。</p>
+<p>总所周知，由俭入奢易，由奢入俭难。当一个人习惯了markdown的极简语法和手不用离开键盘的沉浸式写作时，想让他再回去……（回不去了……泪目）</p>
+<h2 id="终于开始讲快捷键"><a class="markdownIt-Anchor" href="#终于开始讲快捷键"></a> 终于开始讲快捷键！</h2>
+<p>其实我小时候也不愿意用快捷键，因为就是不愿意记那几个热键组合，就是犟知道不。</p>
+<p>直到我阴差阳错进入软件工程……就开始默默地用ctrl+cv大法了，现在没有人还在用右键-&gt;找到复制or粘贴-&gt;点击的方法来复制粘贴了吧，说实话，我连选中文本都懒得用鼠标，能ctrl+a选中全部的我就不会用鼠标……（因为手真的不想离开键盘啊啊啊啊）</p>
+<p>如果你喜欢ctrl+cv超过用鼠标右键，那么恭喜你！你会爱上快捷键的。</p>
+<h3 id="你不得不知道的win快捷键"><a class="markdownIt-Anchor" href="#你不得不知道的win快捷键"></a> 你不得不知道的win+快捷键</h3>
+<p>在windows系统中操作你的文件时，windows提供了许多真的非常方便的快捷键，而且！并没有那么难记！真的很好记的，用多了就记住了。</p>
+<p>我先给一个表格，这里面记录了我爱用的win+热键组合。如果后面发现了好用的我会回来补充！</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">热键组合</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>win</code></td>
+<td style="text-align:center">打开开始菜单，并唤醒底部导航栏</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>win+r</code></td>
+<td style="text-align:center">打开运行，可以再输入cmd快速打开命令提示符（一个同样强大的工具）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>win+i</code></td>
+<td style="text-align:center">🌟快速🌟打开设置（懂一下这个含金量）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>win+.</code></td>
+<td style="text-align:center">快速打开特殊符号输入法（微软输入法输入表情是真的麻烦）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>win+e</code></td>
+<td style="text-align:center">快速打开文件管理器</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>win+x</code></td>
+<td style="text-align:center">这位更是重量级，如果不喜欢记上面的命令，只要记住这一个</td>
+</tr>
+</tbody>
+</table>
+<h3 id="你不得不知道的文件操作快捷键ctrl"><a class="markdownIt-Anchor" href="#你不得不知道的文件操作快捷键ctrl"></a> 你不得不知道的文件操作快捷键(ctrl+)</h3>
+<p>首先ctrl+cv大家都知道，没什么可说的。但是其他的如果能掌握，真的很方便！</p>
+<h4 id="文本编辑器内部操作这里就以vscode为例"><a class="markdownIt-Anchor" href="#文本编辑器内部操作这里就以vscode为例"></a> 文本编辑器内部操作（这里就以vscode为例）</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">热键组合</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>ctrl+a</code></td>
+<td style="text-align:center">文本内容全选</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+x</code></td>
+<td style="text-align:center">剪切，并且剪切内容支持多次粘贴</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+z</code></td>
+<td style="text-align:center">回退上一步操作，并且这个操作在很多第三方的工具中都支持！！！</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+y</code></td>
+<td style="text-align:center">有回退的一定有重做，就是撤销回退，一个z加一个y就等于没做任何事~</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+→</code></td>
+<td style="text-align:center">跳到单词末尾，如果已经在末尾，就跳到下一个单词末尾</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+←</code></td>
+<td style="text-align:center">同理，跳到单词开头</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Home</code></td>
+<td style="text-align:center">跳到当前行的开头</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>End</code></td>
+<td style="text-align:center">跳到当前行的末尾</td>
+</tr>
+</tbody>
+</table>
+<h4 id="程序和文件操作"><a class="markdownIt-Anchor" href="#程序和文件操作"></a> 程序和文件操作</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">热键组合</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>ctrl+d</code></td>
+<td style="text-align:center">删除选中的文件及文件夹</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+a</code></td>
+<td style="text-align:center">当前所在文件夹内容全选，如果在桌面选中桌面文件夹的所有内容</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+x</code></td>
+<td style="text-align:center">剪切，并且剪切内容支持多次粘贴</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+z</code></td>
+<td style="text-align:center">回退上一步操作，并且这个操作在很多第三方的工具中都支持！！！</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+y</code></td>
+<td style="text-align:center">有回退的一定有重做，就是撤销回退，一个z加一个y就等于没做任何事~</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ctrl+Enter</code></td>
+<td style="text-align:center">打开选中的文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Alt+Tab</code></td>
+<td style="text-align:center">在打开的任务中选择（注意这个操作有技巧，按tab+alt后松开tab，alt不要松，用←↑→↓操作，选中需要切换到的界面后松开alt）</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/"># 日记/随笔</a>
+                    
+                        <a href="/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/"># 快捷键</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/03/16/overleaf%E9%9C%80%E8%A6%81%E7%94%9F%E5%83%BB%E5%AD%97%E6%98%BE%E7%A4%BA%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">overleaf需要生僻字显示操作指南</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
