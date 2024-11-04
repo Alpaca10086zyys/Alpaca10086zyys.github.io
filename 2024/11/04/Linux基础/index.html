@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>书生大模型实战营l0g1000 开发机和Linux | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">书生大模型实战营l0g1000 开发机和Linux</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 4, 2024&nbsp;&nbsp;15:24:15</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B/">书生大模型</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>本文同步到CSDN，为书生大模型实战营的作业记录。<br />
+<a target="_blank" rel="noopener" href="https://aicarrier.feishu.cn/wiki/QtJnweAW1iFl8LkoMKGcsUS9nld">四期飞书文档</a></p>
+<h1 id="开发机的使用"><a class="markdownIt-Anchor" href="#开发机的使用"></a> 开发机的使用</h1>
+<h2 id="创建开发机"><a class="markdownIt-Anchor" href="#创建开发机"></a> 创建开发机</h2>
+<p>首先注册InternStudio账号，进入控制台：<a target="_blank" rel="noopener" href="https://studio.intern-ai.org.cn/">InternStudio</a><br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E5%88%9B%E5%BB%BA%E5%BC%80%E5%8F%91%E6%9C%BA.png" alt="" /><br />
+按照教程中的步骤创建开发机（其实一开始不太会用的话，可以选1个小时，我一开始操作失误把一个8h的开发机停止了，痛失8算力🥹）</p>
+<p>创建成功后可以在开发机选项卡点击进入开发机，来在Web界面连接开发机，在Web界面我们可以使用以下三种模式：</p>
+<ul>
+<li>JupyterLab：一个交互式的编程和教学环境，同时内置终端，可以很方便地查看文件，执行代码等</li>
+<li>终端（Terminal， 最轻量级）：主要进行命令行操作，或者运行脚本和简单程序</li>
+<li>VSCode：网页中集成的VSCode，也可以在本地VSCode中通过SSH连接远程开发，下面就会讲如何配置远程连接</li>
+</ul>
+<h2 id="使用ssh连接开发机"><a class="markdownIt-Anchor" href="#使用ssh连接开发机"></a> 使用SSH连接开发机</h2>
+<h3 id="什么是ssh"><a class="markdownIt-Anchor" href="#什么是ssh"></a> 什么是SSH？</h3>
+<p>SSH全称Secure Shell，中文翻译为安全外壳，它是一种网络安全协议，通过加密和认证机制实现安全的访问和文件传输等业务。SSH 协议通过对网络数据进行加密和验证，在不安全的网络环境中提供了安全的网络服务。</p>
+<p>SSH 是（C/S架构）由服务器和客户端组成，为建立安全的 SSH 通道，双方需要先建立 TCP 连接，然后协商使用的版本号和各类算法，并生成相同的会话密钥用于后续的对称加密。在完成用户认证后，双方即可建立会话进行数据交互。</p>
+<p>远程连接的好处就是，如果你使用的是远程办公，你可以通过SSH远程连接开发机，这样就可以在本地进行开发。而且如果你需要跑一些本地的代码，又没有环境，那么远程连接就非常有必要了。</p>
+<h3 id="在windows下连接ssh开发机"><a class="markdownIt-Anchor" href="#在windows下连接ssh开发机"></a> 在Windows下连接SSH开发机</h3>
+<p>首先来试用一下通过密码连接，在Windows下打开PowerShell，其实用CMD应该也是可以的，但更多时候，使用Powershell可以实现更加复杂的功能。</p>
+<p>然后在Web控制台开发机页点击SSH连接来查看登录命令：(我的开发机在我写这篇文章时已经停机，所以我用教程里的指令来进行详细解释)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 37367 root@ssh.intern-ai.org.cn -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null</span><br></pre></td></tr></table></figure>
+<p>这条 SSH 命令用于通过特定端口远程连接到服务器。以下是每个部分的解释：</p>
+<ol>
+<li>
+<p><strong><code>ssh</code></strong>：命令行工具，用于通过 SSH（安全外壳）协议连接到远程计算机。</p>
+</li>
+<li>
+<p><strong><code>-p 37367</code></strong>：指定使用端口号 37367 进行连接（默认情况下，SSH 使用端口 22）。</p>
+</li>
+<li>
+<p><strong><code>root@ssh.intern-ai.org.cn</code></strong>：远程主机信息，<code>root</code> 表示用户名，<code>ssh.intern-ai.org.cn</code> 是远程服务器的地址。</p>
+</li>
+<li>
+<p><strong><code>-o StrictHostKeyChecking=no</code></strong>：此选项用于禁用主机密钥检查。如果此项设置为 <code>no</code>，SSH 不会提示用户验证主机的身份，即使密钥未知。</p>
+</li>
+<li>
+<p><strong><code>-o UserKnownHostsFile=/dev/null</code></strong>：指定将用户已知的主机密钥文件设置为 <code>/dev/null</code>，即不记录远程主机密钥。这意味着不会保存连接的服务器信息，也不会在未来访问中被使用。</p>
+</li>
+</ol>
+<p>总结：这条命令连接到 <code>ssh.intern-ai.org.cn</code> 服务器的端口 37367，并通过 <code>root</code> 用户进行身份验证。它禁用主机密钥检查，并忽略记录已知的主机密钥，通常用于避免提示或为不受信任的环境创建临时连接。</p>
+<p>需要注意的是：</p>
+<blockquote>
+<p>主机密钥检查里的“主机”指的是服务器，而不是你的 PC 端。</p>
+<p>当你通过 SSH 连接到一台服务器时，SSH 客户端会从该服务器接收到一个主机密钥，用来验证你正在连接的服务器的身份。<br />
+如果是你第一次连接这台服务器，SSH 会提示你是否信任并保存该主机密钥，以便在未来访问时验证服务器的身份。<br />
+这一步是为了防止中间人攻击，如果主机密钥发生变化，SSH 会发出警告。<br />
+在你的命令中，通过设置 -o StrictHostKeyChecking=no，SSH 跳过了这个验证步骤，因此不会询问你是否信任这台服务器的密钥。</p>
+</blockquote>
+<p>按下enter需要输入密码，这里是可以在控制台复制过来的，不多赘述。回车，出现以下界面说明连接成功：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/ssh%E8%BF%9E%E6%8E%A5%E5%88%B0%E5%BC%80%E5%8F%91%E6%9C%BA.png" alt="" /><br />
+输入一系列指令来查看开发机信息：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E6%9F%A5%E7%9C%8B%E5%BC%80%E5%8F%91%E6%9C%BA%E4%BF%A1%E6%81%AF.png" alt="" /><br />
+输入两次<code>exit</code>来退出远程连接。</p>
+<h3 id="配置ssh密钥进行ssh远程连接"><a class="markdownIt-Anchor" href="#配置ssh密钥进行ssh远程连接"></a> 配置SSH密钥进行SSH远程连接</h3>
+<p>为了使连接更加方便，我们来配置SSH密钥以进行快捷的远程连接。<br />
+（这里如果用户名含中文，将无法支持，但还好我的是数字）<br />
+ssh-keygen支持RSA和DSA两种认证密钥。</p>
+<p>常用参数包括：</p>
+<p>-t：指定密钥类型，如dsa、ecdsa、ed25519、rsa。<br />
+-b：指定密钥长度。<br />
+-C：添加注释。<br />
+-f：指定保存密钥的文件名。<br />
+-i：读取未加密的ssh-v2兼容的私钥/公钥文件。<br />
+这里我们使用RSA算法生成密钥，命令为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>有些同学可能之前配置过（比如我），就可以在用户文件夹下找到这个密钥，路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/&#123;用户名&#125;/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+<p>在powerShell中可以使用Get-Content命令查看生成的密钥：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E8%8E%B7%E5%8F%96rsa%E5%AF%86%E9%92%A5.png" alt="" /><br />
+但我后面发现，即便直接用txt打开也可以复制到这部分内容（doge）。</p>
+<p>然后我们回到开发机平台，在首页点击配置SSH Key，接着点击添加SSH公钥，将刚刚生成的密钥复制下来，粘贴到公钥框中，名称会被自动识别到，最后点击立即添加，SSH Key就配置完成了。<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E9%85%8D%E7%BD%AESSH%E5%85%AC%E9%92%A5.png" alt="" /><br />
+重启终端进行远程连接，就会跳过密码输入这一步了。</p>
+<h3 id="使用vscode进行ssh远程连接"><a class="markdownIt-Anchor" href="#使用vscode进行ssh远程连接"></a> 使用vscode进行SSH远程连接</h3>
+<p>首先需要下载下图中的插件们：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/SSH%E6%8F%92%E4%BB%B6.png" alt="" /><br />
+安装完成插件以后，点击侧边栏的远程连接图标，在SSH中点击“+”按钮，添加开发机SSH连接的登录命令。<br />
+后面的一系列操作直接按照默认执行即可。</p>
+<p>然后点击弹出的“已添加主机”窗口的连接，就可以远程使用开发机了。<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/vscode%20ssh%E8%BF%9E%E6%8E%A5.png" alt="" /></p>
+<h2 id="端口映射"><a class="markdownIt-Anchor" href="#端口映射"></a> 端口映射</h2>
+<h3 id="什么是端口映射"><a class="markdownIt-Anchor" href="#什么是端口映射"></a> 什么是端口映射？</h3>
+<p>端口映射是一种网络技术，它可以将外网中的任意端口映射到内网中的相应端口，实现内网与外网之间的通信。通过端口映射，可以在外网访问内网中的服务或应用，实现跨越网络的便捷通信。</p>
+<p>在后续的课程中我们会进行模型web_demo的部署实践，那在这个过程中，很有可能遇到web ui加载不全的问题。这是因为开发机Web IDE中运行web_demo时，直接访问开发机内 http/https 服务可能会遇到代理问题，外网链接的ui资源没有被加载完全。</p>
+<p>为了解决这个问题，我们需要对运行web_demo的连接进行端口映射，将外网链接映射到我们本地主机，我们使用本地连接访问，解决这个代理问题。</p>
+<h3 id="如何进行端口映射"><a class="markdownIt-Anchor" href="#如何进行端口映射"></a> 如何进行端口映射</h3>
+<p>在开发机选项卡，点击自定义服务，复制第一条命令（这里实际上是第二条也行，除非你机器上的7860端口已经被使用了，127.0.0.1对应的是本地机，localhost等同于127.0.0.1，区别在于localhost是域名，127.0.0.1是IP地址，它们都是本机访问，访问时都不需要联网）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 37367 root@ssh.intern-ai.org.cn -CNg -L &#123;本地机器_PORT&#125;:127.0.0.1:&#123;开发机_PORT&#125; -o StrictHostKeyChecking=no</span><br></pre></td></tr></table></figure>
+<p>命令各部分的含义：</p>
+<ul>
+<li><code>p 37367</code>：是指定 SSH 连接的端口为 37367，这个前面提到过。<br />
+<a href="mailto:root@ssh.intern-ai.org.cn">root@ssh.intern-ai.org.cn</a>：表示要以 root 用户身份连接到 <a target="_blank" rel="noopener" href="http://ssh.intern-ai.org.cn">ssh.intern-ai.org.cn</a> 这个主机。</li>
+<li><code>CNg</code>：
+<ul>
+<li><code>C</code> 通常用于启用压缩。</li>
+<li><code>N</code> 表示不执行远程命令，仅建立连接用于端口转发等。</li>
+<li><code>g</code> 允许远程主机连接到本地转发的端口。</li>
+</ul>
+</li>
+<li><code>L &#123;本地机器_PORT&#125;:127.0.0.1:&#123;开发机_PORT&#125;</code>：这是设置本地端口转发，将本地机器的指定端口（由 <code>&#123;本地机器_PORT&#125;</code> 表示）转发到远程主机（这里即 <code>ssh.intern-ai.org.cn</code>）的 <code>127.0.0.1</code> （即本地回环地址）和指定的开发机端口（由 <code>&#123;开发机_PORT&#125;</code> 表示）。</li>
+<li><code>o StrictHostKeyChecking=no</code>：关闭严格的主机密钥检查，这样可以避免第一次连接时因为未知主机密钥而产生的提示或错误。</li>
+</ul>
+<p>然后用上面所教的任意一种方法连接开发机，然后在一个你能控制的目录下创建<code>hello_world.py</code>(注意这里不要在share文件夹下创建因为他是只读的，会写入失败):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> gradio <span class="keyword">as</span> gr</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取主机名</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_hostname</span>():</span><br><span class="line">    hostname = socket.gethostname()</span><br><span class="line">    <span class="keyword">match</span> = re.search(<span class="string">r&#x27;-(\d+)$&#x27;</span>, hostname)</span><br><span class="line">    name = <span class="keyword">match</span>.group(<span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建 Gradio 界面</span></span><br><span class="line"><span class="keyword">with</span> gr.Blocks(gr.themes.Soft()) <span class="keyword">as</span> demo:</span><br><span class="line">    html_code = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            &lt;p align=&quot;center&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;a href=&quot;https://intern-ai.org.cn/home&quot;&gt;</span></span><br><span class="line"><span class="string">                &lt;img src=&quot;https://intern-ai.org.cn/assets/headerLogo-4ea34f23.svg&quot; alt=&quot;Logo&quot; width=&quot;20%&quot; style=&quot;border-radius: 5px;&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;/a&gt;</span></span><br><span class="line"><span class="string">            &lt;/p&gt;</span></span><br><span class="line"><span class="string">            &lt;h1 style=&quot;text-align: center;&quot;&gt;☁️ Welcome <span class="subst">&#123;get_hostname()&#125;</span> user, welcome to the ShuSheng LLM Practical Camp Course!&lt;/h1&gt;</span></span><br><span class="line"><span class="string">            &lt;h2 style=&quot;text-align: center;&quot;&gt;😀 Let’s go on a journey through ShuSheng Island together.&lt;/h2&gt;</span></span><br><span class="line"><span class="string">            &lt;p align=&quot;center&quot;&gt;</span></span><br><span class="line"><span class="string">                &lt;a href=&quot;https://github.com/InternLM/Tutorial/blob/camp3&quot;&gt;</span></span><br><span class="line"><span class="string">                    &lt;img src=&quot;https://oss.lingkongstudy.com.cn/blog/202410081252022.png&quot; alt=&quot;Logo&quot; width=&quot;50%&quot; style=&quot;border-radius: 5px;&quot;&gt;</span></span><br><span class="line"><span class="string">                &lt;/a&gt;</span></span><br><span class="line"><span class="string">            &lt;/p&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">    gr.Markdown(html_code)</span><br><span class="line"></span><br><span class="line">demo.launch()</span><br></pre></td></tr></table></figure>
+<p>在运行代码之前，需要先使用<code>pip install gradio==4.29.0</code>命令安装依赖包，并在本机PC端的Powershell中运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 37367 root@ssh.intern-ai.org.cn -CNg -L 7860:127.0.0.1:7860 -o StrictHostKeyChecking=no</span><br></pre></td></tr></table></figure>
+<p>然后在Web IDE的终端中运行hello_world.py：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python hello_world.py</span><br></pre></td></tr></table></figure>
+<p>看到如下界面:<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%9C%AC%E6%9C%BA%E7%AB%AF%E5%8F%A3.png" alt="" /><br />
+就可以在浏览器中通过<code>127.0.0.1:7860</code>来访问界面：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E6%98%A0%E5%B0%84%E6%88%90%E5%8A%9F.png" alt="" /><br />
+映射成功</p>
+<h1 id="linux入门指令"><a class="markdownIt-Anchor" href="#linux入门指令"></a> Linux入门指令</h1>
+<p>Linux在入门使用的时候最常用的就是下面几个：</p>
+<ul>
+<li><code>pwd</code>: 查看当前目录</li>
+<li><code>cd</code>: 切换路径（change directory）
+<ul>
+<li><code>cd ..</code>:切换到上一级目录（相对路径）</li>
+<li><code>cd /home</code>:切换到home目录（绝对路径）</li>
+</ul>
+</li>
+<li><code>ls</code>: 打印当前目录下所有的内容（文件夹和文件颜色是不一样的）</li>
+<li><code>mkdir</code>: 创建文件夹，在后面跟文件夹名，如果文件夹名中含空格，需要带引号
+<ul>
+<li><code>mkdir &quot;dir name&quot;</code></li>
+</ul>
+</li>
+<li><code>touch</code>: 创建文件，在后面跟文件名，要带后缀，如果含空格与上一条同理
+<ul>
+<li><code>touch hello_world.py</code></li>
+</ul>
+</li>
+<li><code>cat</code>: 查看文件内容，在后面跟文件名，将文件内容打印在终端。</li>
+<li><code>vi</code>: 使用vim编辑器创建（如果没有这个文件）并打开文件，进行编辑：
+<ul>
+<li>编辑模式有多种，教程很多，我这里肯定说不清楚，事实上我掌握的也只是最基础的功能，建议是不会就去google，越用越熟吧</li>
+</ul>
+</li>
+<li><code>rm</code>: 删除一个文件
+<ul>
+<li><code>rm hello.py</code></li>
+</ul>
+</li>
+<li><code>rm -r</code>: 递归删除一个文件夹
+<ul>
+<li><code>rm -r &quot;dir name&quot;</code></li>
+</ul>
+</li>
+<li><code>grep</code>: 跟一个字符串， 筛选出含有这个字符串的内容
+<ul>
+<li><code>grep &quot;hello&quot; file.txt</code></li>
+</ul>
+</li>
+<li><code>&gt;</code>: 将输出写入文件，覆盖原有内容
+<ul>
+<li><code>python hello.py &gt; output.txt</code></li>
+</ul>
+</li>
+<li><code>&gt;&gt;</code>: 将输出写入文件，追加到原有内容后面
+<ul>
+<li><code>python hello.py &gt;&gt; output.txt</code></li>
+</ul>
+</li>
+<li><code>|</code>: 管道操作符，用于将一个命令的输出传递给另一个命令
+<ul>
+<li><code>python hello.py | grep &quot;Hello&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="参考材料"><a class="markdownIt-Anchor" href="#参考材料"></a> 参考材料</h1>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/InternLM/Tutorial/tree/camp4/docs/L0/linux">https://github.com/InternLM/Tutorial/tree/camp4/docs/L0/linux</a><br />
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43783942/article/details/129659471">PowerShell和cmd的区别是什么</a></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/09/28/npyscreen%E5%BA%93-%E4%BC%98%E9%9B%85%E5%9C%B0%E5%88%9B%E5%BB%BA%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%A8%8B%E5%BA%8F/">npyscreen库-优雅地创建控制台程序</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
