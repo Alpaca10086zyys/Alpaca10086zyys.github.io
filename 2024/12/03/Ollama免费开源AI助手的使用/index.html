@@ -13,7 +13,7 @@
 
 
 
-<title>npyscreen库-优雅地创建控制台程序 | Alpaca Zhang&#39;s Blog</title>
+<title>Ollama免费开源AI助手的使用 | Alpaca Zhang&#39;s Blog</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">npyscreen库-优雅地创建控制台程序</h1>
+            <h1 class="post-title">Ollama免费开源AI助手的使用</h1>
             
                 <div class="post-meta">
                     
@@ -205,28 +205,30 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 28, 2024&nbsp;&nbsp;14:53:40</a>
+                        Date: <a href="#">十二月 3, 2024&nbsp;&nbsp;19:35:38</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
-<p>本文的诞生背景是一个愉快的周末下午，明天只需要再上一天课就能放假回家了，笔者心情很好地写着Python课的作业，作业是一个对list数据结构的练习：通讯录系统的增删改查。但老师提了一嘴关于界面需要美观的要求。</p>
-<p>嗯，怎么美观呢。</p>
-<p>难道我得给他写个前端。不是吧，这只是一个普通的周中作业欸。于是我想到了之前见过的vim等工具的指导手册界面，那种古早的极客风格，和极致的简洁操作让我瞬间有了主意，那么就把我们的作业做成这样的吧！</p>
-<p>于是我找到了这样的一个库：<code>npyscreen</code>，它可以帮助我们快速搭建这样一个控制台程序。</p>
-<p>效果如：</p>
+            <h2 id="ollama是什么"><a class="markdownIt-Anchor" href="#ollama是什么"></a> Ollama是什么</h2>
+<p>Ollama 是一个专注于本地部署大型语言模型的工具，通过提供便捷的模型管理、丰富的预建模型库、跨平台支持以及灵活的自定义选项，使得开发者和研究人员能够在本地环境中高效利用大型语言模型进行各种自然语言处理任务，而无需依赖云服务或复杂的基础设施设置。</p>
+<h2 id="安装ollama"><a class="markdownIt-Anchor" href="#安装ollama"></a> 安装Ollama</h2>
+<p>👉<a target="_blank" rel="noopener" href="https://ollama.com/download">官网指路</a></p>
+<p>安装包其实还蛮大的，比我想象的大，700多兆。</p>
+<h2 id="安装docker和webui"><a class="markdownIt-Anchor" href="#安装docker和webui"></a> 安装Docker和WebUI</h2>
+<h3 id="安装docker"><a class="markdownIt-Anchor" href="#安装docker"></a> 安装docker</h3>
+<p>👉<a target="_blank" rel="noopener" href="https://www.docker.com/">官网指路</a></p>
+<p>我们需要选择自己需要的系统版本，这里需要注意的是他提供了Windows系统两个不同的架构的安装版本。</p>
+<p>这时候可以按下 <code>Win + R</code>快捷键，打开“运行”对话框。 输入<code>msinfo32</code>，然后按 Enter 键。 在系统信息窗口中，查找 <strong>“系统类型”</strong> 字段。 如果显示 <strong>“x64 基于PC”</strong> ，则你的操作系统是64位的，通常对应的是AMD架构；如果显示 <strong>“ARM 基于PC”</strong> ，则你的操作系统是ARM架构的。</p>
+<h2 id="安装open-webui"><a class="markdownIt-Anchor" href="#安装open-webui"></a> 安装Open WebUI</h2>
+<p>如果已经安装好了docker和ollama，可以到<a target="_blank" rel="noopener" href="https://github.com/open-webui/open-webui">这里</a>找到自动安装Open WebUI 的指令。</p>
+<p>不一定还是这个，得去官网确认一下~</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main</span><br></pre></td></tr></table></figure>
+<p>复制指令之后，我们打开命令提示符输入这个指令，回车。</p>
 
         </div>
 
@@ -259,10 +261,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/Python%E5%BA%93/"># Python库</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -273,10 +271,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/11/04/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5l0g1000%20%E5%BC%80%E5%8F%91%E6%9C%BA%E5%92%8CLinux/">书生大模型实战营l0g1000 开发机和Linux</a>
+                <a class="prev" rel="prev" href="/2025/03/08/%E5%A6%82%E4%BD%95%E5%81%9A%E5%87%BA%E4%B8%9D%E6%BB%91%E7%9A%84%E5%89%8D%E7%AB%AF%E5%8A%A8%E7%94%BB-GSAP%E5%BA%93%E4%BD%BF%E7%94%A8/">如何做出丝滑的前端动画--GSAP库使用</a>
             
             
-            <a class="next" rel="next" href="/2024/08/13/langchain%E5%BC%80%E5%8F%91-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA/">langchain开发--如何使用流式输出</a>
+            <a class="next" rel="next" href="/2024/11/12/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5l0g3000%20git%E5%92%8CGitHub%E7%9A%84%E7%8E%A9%E6%B3%95/">书生大模型实战营l0g3000 git和GitHub的玩法</a>
             
         </section>
 

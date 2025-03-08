@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>书生大模型实战营l0g3000 git和GitHub的玩法 | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">书生大模型实战营l0g3000 git和GitHub的玩法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 12, 2024&nbsp;&nbsp;22:40:00</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="关于git和github是什么"><a class="markdownIt-Anchor" href="#关于git和github是什么"></a> 关于Git和Github是什么</h2>
+<p>BTW，我最近真的忙疯了，但是我告诉自己必须坚持把这个玩意给做了。所以语言会有一些混乱，请见谅orz</p>
+<p>作为一个已经玩了Git两年但还是要经常Google来解决一些问题的软件工程学生。如果要一句话概括Git的用途那就是：</p>
+<blockquote>
+<p>他是一个适合程序员体质的同步笔记软件</p>
+</blockquote>
+<p>怎么理解这句话呢，意思就是他的用途就好比命令行里的飞书云文档（当然他肯定比飞书云文档更早，而且他也可以有GUI界面），支持多端共享，多人协作，最最重要的是他强大的版本控制和分支管理能力。你想去到哪个节点，就去到哪个结点。就像时光机一样酷。</p>
+<p>那么Github是什么呢？Github，Gitee还是Gitlab，其实都差不多，殊途同归，所以使用哪个作为远程仓库并无所谓，相比之下，使用Github或许会接触到更多有意思的人和世界各地的技术大牛？Github是一个可玩性很强的平台，而且他的logo真的很可爱（碎碎念）在这里你甚至可以学会做饭：<br />
+<img src="https://i-blog.csdnimg.cn/direct/421e416a90374687854249e0ac2853ec.png#pic_center" alt="在这里插入图片描述" /></p>
+<h2 id="安装和使用git"><a class="markdownIt-Anchor" href="#安装和使用git"></a> 安装和使用Git</h2>
+<h3 id="git安装"><a class="markdownIt-Anchor" href="#git安装"></a> Git安装</h3>
+<p>恰好最近我还没来得及在实验室的电脑上安装git，就带着一起做一下吧！事实上我们只需要搜索git，然后download for (你的操作系统)，选择符合你电脑规格的setup然后next，next，next…网上的教程就像星星一样多，所以不继续赘述。安装完成后输入下面命令验证安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p><img src="https://i-blog.csdnimg.cn/direct/7800ed615d544e559d8c752ced9e1bd9.png#pic_center" alt="在这里插入图片描述" /><br />
+然后右键任意一个文件夹，理论上在桌面也行，选择open git bash here，如果没有安装错误应该是有的，一定有快捷键，但我懒得配。<br />
+然后就会打开一个这样的框,输入以下命令来设置全局用户名和电子邮件地址：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;your.email@example.com&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>&quot;Your Name&quot;</code> 和 <code>&quot;your.email@example.com&quot;</code>应替换为你自己的姓名和电子邮件。</p>
+<p>然后可以输入这个来检查是否配置成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
+<p><img src="https://i-blog.csdnimg.cn/direct/35bfb56fccca4be7a23c35f763d78de9.png#pic_center" alt="在这里插入图片描述" /><br />
+有时候你输完命令没有输出，不要紧张，Unix哲学就是这样的，没有消息就是最好的消息。</p>
+<h3 id="git使用"><a class="markdownIt-Anchor" href="#git使用"></a> Git使用</h3>
+<p>如果是已经掌握了git的用法的同学，相信下面的命令对你来说就跟玩儿一样。如果是没有掌握的，光看这张表，相比也看不懂。</p>
+<table>
+<thead>
+<tr>
+<th>Git 命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git config</code></td>
+<td>配置用户信息和偏好设置</td>
+</tr>
+<tr>
+<td><code>git init</code></td>
+<td>初始化一个新的 Git 仓库</td>
+</tr>
+<tr>
+<td><code>git clone</code></td>
+<td>克隆一个远程仓库到本地</td>
+</tr>
+<tr>
+<td><code>git status</code></td>
+<td>查看仓库当前的状态，显示有变更的文件</td>
+</tr>
+<tr>
+<td><code>git add</code></td>
+<td>将文件更改添加到暂存区</td>
+</tr>
+<tr>
+<td><code>git commit</code></td>
+<td>提交暂存区到仓库区</td>
+</tr>
+<tr>
+<td><code>git branch</code></td>
+<td>列出、创建或删除分支</td>
+</tr>
+<tr>
+<td><code>git checkout</code></td>
+<td>切换分支或恢复工作树文件</td>
+</tr>
+<tr>
+<td><code>git merge</code></td>
+<td>合并两个或更多的开发历史</td>
+</tr>
+<tr>
+<td><code>git pull</code></td>
+<td>从另一仓库获取并合并本地的版本</td>
+</tr>
+<tr>
+<td><code>git push</code></td>
+<td>更新远程引用和相关的对象</td>
+</tr>
+<tr>
+<td><code>git remote</code></td>
+<td>管理跟踪远程仓库的命令</td>
+</tr>
+<tr>
+<td><code>git fetch</code></td>
+<td>从远程仓库获取数据到本地仓库，但不自动合并</td>
+</tr>
+</tbody>
+</table>
+<p>主要还是孰能生巧，多用，才能更快掌握，但如果你目前的工作只是需要在你的windows系统上写一些只属于你自己的简单代码，那么你目前只需要会这几个：</p>
+<table>
+<thead>
+<tr>
+<th>Git 命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git config</code></td>
+<td>配置用户信息和偏好设置</td>
+</tr>
+<tr>
+<td><code>git init</code></td>
+<td>初始化一个新的 Git 仓库</td>
+</tr>
+<tr>
+<td><code>git clone</code></td>
+<td>克隆一个远程仓库到本地</td>
+</tr>
+<tr>
+<td><code>git add</code></td>
+<td>将文件更改添加到暂存区</td>
+</tr>
+<tr>
+<td><code>git commit</code></td>
+<td>提交暂存区到仓库区</td>
+</tr>
+<tr>
+<td><code>git push</code></td>
+<td>更新远程引用和相关的对象</td>
+</tr>
+</tbody>
+</table>
+<p>掌握了这些命令，应该就差不多了。</p>
+<h2 id="实战营作业"><a class="markdownIt-Anchor" href="#实战营作业"></a> 实战营作业</h2>
+<h3 id="提交个人自我介绍"><a class="markdownIt-Anchor" href="#提交个人自我介绍"></a> 提交个人自我介绍</h3>
+<p>将这个仓库fork到自己的仓库下，并且，克隆到本机。<br />
+在本机打开git bash，其实在自己的仓库列表下找到这个仓库点进去，然后再点code按钮获得的链接就不需要修改用户名。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改为自己fork的仓库，改为上图中你的https仓库的git地址,将random-zhou改为自己的用户名</span></span><br><span class="line">git clone https://github.com/random-zhou/Tutorial.git </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git <span class="built_in">clone</span> git@github.com:random-zhou/Tutorial.git</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git <span class="built_in">clone</span> https://github.com/InternLM/Tutorial.git</span></span><br><span class="line">cd Tutorial/</span><br><span class="line">git branch -a</span><br><span class="line">git checkout -b class origin/class</span><br></pre></td></tr></table></figure>
+<p>然后。自己新建一个分支，下面的命令可以一步到位地新建分支并切换到分支：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b class_036 # 自定义一个新的分支</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">git checkout -b class_id 分支名字改为你的uid分支名称</span></span><br></pre></td></tr></table></figure>
+<p>然后用随便什么编辑器打开文件夹，编辑一段自我介绍就可以，我用的vscode，vscode还集成了终端，可以直接在这里提交：<br />
+<img src="https://i-blog.csdnimg.cn/direct/105628c0306445cca1106dbe885d9883.png" alt="在这里插入图片描述" /><br />
+提交方法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;add git_camp4_1731_introduction&quot; # 提交信息记录,这里修改为我自己的uid</span><br><span class="line">git push origin 1731</span><br></pre></td></tr></table></figure>
+<p>如何就可以在github看到这个提示：<br />
+<img src="https://i-blog.csdnimg.cn/direct/cb689ac586b74071a6c0fb113f56bc2d.png" alt="在这里插入图片描述" /><br />
+open pull request，将名字改为指定格式：<br />
+<img src="https://i-blog.csdnimg.cn/direct/e82b184806694adcb232ed314405913d.png" alt="在这里插入图片描述" /></p>
+<h3 id="构建个人项目"><a class="markdownIt-Anchor" href="#构建个人项目"></a> 构建个人项目</h3>
+<p>这里就先暂时放一个我之前的LLM项目吧，有时间了一定补，（下次一定，下次一定）<br />
+<a target="_blank" rel="noopener" href="https://github.com/Alpaca10086zyys/stardew-valley-assistant">https://github.com/Alpaca10086zyys/stardew-valley-assistant</a></p>
+<h2 id="github的一些好玩的"><a class="markdownIt-Anchor" href="#github的一些好玩的"></a> Github的一些好玩的</h2>
+<p>这里我也没有太多时间细说啦，简单讲讲我在Github上发现的一些有意思的东西。</p>
+<h3 id="github-copilot"><a class="markdownIt-Anchor" href="#github-copilot"></a> Github Copilot</h3>
+<p>Github Copilot是一个可以帮你自动补全代码的功能，比我之前用过的所有IDE的自动补全都要强！学生的话可以免费使用，只要认证一下就好！</p>
+<h3 id="github-page"><a class="markdownIt-Anchor" href="#github-page"></a> Github Page</h3>
+<p>这个可以用来搭建静态博客，也可以托管一些静态网页！可以看看我们的弱弱大作业和我的弱弱博客👉🏻👈🏻</p>
+<h3 id="github-codespace"><a class="markdownIt-Anchor" href="#github-codespace"></a> Github Codespace</h3>
+<h3 id="仍在探索中"><a class="markdownIt-Anchor" href="#仍在探索中"></a> 仍在探索中！</h3>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/03/Ollama%E5%85%8D%E8%B4%B9%E5%BC%80%E6%BA%90AI%E5%8A%A9%E6%89%8B%E7%9A%84%E4%BD%BF%E7%94%A8/">Ollama免费开源AI助手的使用</a>
+            
+            
+            <a class="next" rel="next" href="/2024/11/04/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5l0g1000%20%E5%BC%80%E5%8F%91%E6%9C%BA%E5%92%8CLinux/">书生大模型实战营l0g1000 开发机和Linux</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
