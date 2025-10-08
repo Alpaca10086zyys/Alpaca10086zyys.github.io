@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>什么是单元测试？ | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">什么是单元测试？</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 14, 2025&nbsp;&nbsp;16:02:55</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Hey guys! 最近找工作面试的时候，有位面试官问到单元测试，真是问到一个我完全未知的领域。今天就来仔细地扒一扒什么是单元测试。</p>
+<h2 id="概念和使用场景"><a class="markdownIt-Anchor" href="#概念和使用场景"></a> 概念和使用场景</h2>
+<p>单元测试是指软件中最小可测试单元进行检查验证, 也称为模块测试。在node.js 中通过是对某个函数, 模块 , API进行正确验证, 以保证代码的可用性。</p>
+<h3 id="使用场景"><a class="markdownIt-Anchor" href="#使用场景"></a> 使用场景</h3>
+<ul>
+<li>分支条件很多，边界条件很多</li>
+<li>组件库之类的核心/关键模块</li>
+<li>工具函数，API之流不依赖外部环境的函数</li>
+<li>CI/CD的一环质量红线</li>
+</ul>
+<h3 id="bdd和tdd"><a class="markdownIt-Anchor" href="#bdd和tdd"></a> BDD和TDD</h3>
+<h4 id="bdd-vs-tdd区别"><a class="markdownIt-Anchor" href="#bdd-vs-tdd区别"></a> BDD vs TDD（区别）</h4>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>TDD（测试驱动开发）</th>
+<th>BDD（行为驱动开发）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关注点</td>
+<td>功能是否正确实现</td>
+<td>行为是否符合用户期望</td>
+</tr>
+<tr>
+<td>测试描述方式</td>
+<td>技术导向（代码逻辑）</td>
+<td>自然语言（行为描述）</td>
+</tr>
+<tr>
+<td>测试命名</td>
+<td>testAddFunction()</td>
+<td>should add two numbers correctly</td>
+</tr>
+<tr>
+<td>编写者</td>
+<td>开发者</td>
+<td>开发者 + QA + 产品</td>
+</tr>
+<tr>
+<td>常见框架</td>
+<td>JUnit, unittest</td>
+<td>Mocha, Jasmine, Jest, Cucumber</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tdd-风格"><a class="markdownIt-Anchor" href="#tdd-风格"></a> <strong>TDD 风格</strong></h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> assert = <span class="built_in">require</span>(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">add</span> = (<span class="params">a, b</span>) =&gt; a + b;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;add()&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;returns 5 when 2 + 3&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    assert.<span class="title function_">strictEqual</span>(<span class="title function_">add</span>(<span class="number">2</span>, <span class="number">3</span>), <span class="number">5</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="bdd-风格"><a class="markdownIt-Anchor" href="#bdd-风格"></a> <strong>BDD 风格</strong></h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;Calculator&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">describe</span>(<span class="string">&#x27;add()&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&#x27;should return 5 when adding 2 and 3&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="title function_">expect</span>(<span class="number">2</span> + <span class="number">3</span>).<span class="property">to</span>.<span class="title function_">equal</span>(<span class="number">5</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>BDD 的好处有：</p>
+<ol>
+<li>测试代码更接近自然语言，非技术人员也能理解</li>
+<li>更容易维护与文档同步（每个 <code>describe</code>/<code>it</code> 都像行为文档）</li>
+<li>鼓励先写“行为”，再实现功能</li>
+<li>结合工具（如 Cucumber）可以直接从“用户故事”自动生成测试</li>
+</ol>
+<h2 id="单元测试工具"><a class="markdownIt-Anchor" href="#单元测试工具"></a> 单元测试工具</h2>
+<h3 id="测试用例的基本语句"><a class="markdownIt-Anchor" href="#测试用例的基本语句"></a> 测试用例的基本语句</h3>
+<p>node.js测试用例有4个基本语句：</p>
+<ul>
+<li><code>describe</code> : 定义一个测试套件</li>
+<li><code>it</code>: 定义一个测试用例</li>
+<li><code>expect</code>:断言的判断条件</li>
+<li><code>toEqual</code>: 断言的比较结果</li>
+</ul>
+<h3 id="断言assert的概念"><a class="markdownIt-Anchor" href="#断言assert的概念"></a> 断言(Assert)的概念</h3>
+<p>assert 模块提供了断言测试的函数，用于测试不变式。它是Node.js里自带的核心模块。有如下的一些常用方法：</p>
+<ol>
+<li><code>assert.strictEqual(actual, expected[, message])</code> 判断全等 (===)</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> assert = <span class="built_in">require</span>(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line"></span><br><span class="line">assert.<span class="title function_">strictEqual</span>(<span class="number">2</span> + <span class="number">2</span>, <span class="number">4</span>);   <span class="comment">// ✅ 通过</span></span><br><span class="line">assert.<span class="title function_">strictEqual</span>(<span class="number">2</span> + <span class="number">2</span>, <span class="string">&#x27;4&#x27;</span>); <span class="comment">// ❌ 抛错，因为类型不同</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><code>assert.notStrictEqual(actual, expected[, message])</code> 判断不全等 (!==)</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert.<span class="title function_">notStrictEqual</span>(<span class="number">2</span> + <span class="number">2</span>, <span class="string">&#x27;4&#x27;</span>); <span class="comment">// ✅</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>assert.deepStrictEqual(actual, expected[, message])</code> 深度比较两个对象/数组的内容（要求类型也相同）。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">assert.<span class="title function_">deepStrictEqual</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;);   <span class="comment">// ✅</span></span><br><span class="line">assert.<span class="title function_">deepStrictEqual</span>([<span class="number">1</span>,<span class="number">2</span>], [<span class="number">1</span>,<span class="number">2</span>]);     <span class="comment">// ✅</span></span><br><span class="line">assert.<span class="title function_">deepStrictEqual</span>(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">a</span>: <span class="string">&#x27;1&#x27;</span>&#125;); <span class="comment">// ❌ 类型不一致</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>
+<p><code>assert.ok(value[, message])</code> 判断值是否为 真值。</p>
+</li>
+<li>
+<p><code>assert.fail([message])</code> 直接让测试失败。</p>
+</li>
+</ol>
+<h3 id="测试框架"><a class="markdownIt-Anchor" href="#测试框架"></a> 测试框架</h3>
+<h4 id="mocha"><a class="markdownIt-Anchor" href="#mocha"></a> mocha</h4>
+<p>特点:</p>
+<ul>
+<li>功能非常丰富, 支持 BDD, TDD</li>
+<li>支持运行在 node.js 和浏览器中</li>
+<li>对异步测试支持非常友好</li>
+<li>支持 4种hook, 包括 before/after/beforeEach/afterEach</li>
+</ul>
+<p>使用mocha，你需要事先安装mocha：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i mocha</span><br></pre></td></tr></table></figure>
+<p>然后在你的<code>package.json</code>里配置脚本执行mocha：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node --watch index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mocha&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+<p>如此，之后在命令行里可以通过<code>npm test</code>来执行你的单元测试脚本，它会默认在项目中寻找 <code>test/</code> 目录或 <code>*.test.js</code> 文件，然后执行其中用 <code>describe</code>、<code>it</code> 等语法定义的测试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/%E8%BF%90%E8%A1%8Cmocha%20test.png" alt="运行mocha test" /></p>
+<h4 id="jest"><a class="markdownIt-Anchor" href="#jest"></a> jest</h4>
+<h3 id="覆盖率coverage"><a class="markdownIt-Anchor" href="#覆盖率coverage"></a> 覆盖率(Coverage)</h3>
+<p>覆盖率（Coverage） 是衡量测试用例“覆盖了多少代码”的指标。如我们需要检查分支是否被单元测试全部涉及，所有函数是否被涉及……</p>
+<p>还是以刚刚的math模块方法为例，假设我们增加一个绝对值方法<code>abs()</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">abs</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (x &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> -x;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了检测单元测试代码是否覆盖了所有，我们需要安装覆盖率工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev nyc</span><br></pre></td></tr></table></figure>
+<p>然后在package.json中加上测试命令：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;nyc mocha&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="动手写一个单元测试"><a class="markdownIt-Anchor" href="#动手写一个单元测试"></a> 动手写一个单元测试</h2>
+<h3 id="函数测试"><a class="markdownIt-Anchor" href="#函数测试"></a> 函数测试</h3>
+<p>首先我们先熟悉一下测试部分的几个核心组成部分：</p>
+<ol>
+<li><strong>顶层 describe()</strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;MyFunction 单元测试&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;)</span><br></pre></td></tr></table></figure>
+<p>describe 用于给一组相关的测试命名。一个文件里可以有多个 describe，用来分模块组织测试。</p>
+<ol start="2">
+<li><strong>测试用例 it/test</strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;确认函数执行结果正确&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;)</span><br></pre></td></tr></table></figure>
+<p>it（或 test）表示一个独立的测试用例。it彼此之间应当是高内聚低耦合的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;should return the correct sum&#x27;</span>, <span class="function">() =&gt;</span> &#123; </span><br><span class="line">  <span class="title function_">expect</span>(<span class="title function_">sum</span>(<span class="number">1</span>, <span class="number">2</span>)).<span class="title function_">toBe</span>(<span class="number">3</span>); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里贴一个可以跑通看效果的case：<br />
+<strong>math.js</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">minus</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>test/math.test.js</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; add, minus &#125; <span class="keyword">from</span> <span class="string">&quot;../math.js&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> assert <span class="keyword">from</span> <span class="string">&quot;assert&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;测试math.js&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">describe</span>(<span class="string">&quot;测试add方法&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&quot;2+3&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      assert.<span class="title function_">equal</span>(<span class="title function_">add</span>(<span class="number">2</span>, <span class="number">3</span>), <span class="number">5</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&quot;4+3&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      assert.<span class="title function_">equal</span>(<span class="title function_">add</span>(<span class="number">4</span>, <span class="number">3</span>), <span class="number">7</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="title function_">describe</span>(<span class="string">&quot;测试minus方法&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&quot;5-3&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      assert.<span class="title function_">equal</span>(<span class="title function_">minus</span>(<span class="number">5</span>, <span class="number">3</span>), <span class="number">2</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="组件测试"><a class="markdownIt-Anchor" href="#组件测试"></a> 组件测试</h3>
+<h4 id="测试文件代码结构"><a class="markdownIt-Anchor" href="#测试文件代码结构"></a> 测试文件代码结构</h4>
+<p>常见的测试文件的结构：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ① 导入依赖</span></span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">&#x27;@vue/test-utils&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">MyComponent</span> <span class="keyword">from</span> <span class="string">&#x27;../src/MyComponent.vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ② 顶层描述块（describe）</span></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;MyComponent 单元测试&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ③ 可选的全局变量</span></span><br><span class="line">  <span class="keyword">let</span> wrapper;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ④ 生命周期钩子</span></span><br><span class="line">  <span class="title function_">beforeAll</span>(<span class="function">() =&gt;</span> &#123; <span class="comment">/* 所有测试前执行一次，如全局mock */</span> &#125;);</span><br><span class="line">  <span class="title function_">beforeEach</span>(<span class="function">() =&gt;</span> &#123; <span class="comment">/* 每个测试前执行，如初始化wrapper */</span> &#125;);</span><br><span class="line">  <span class="title function_">afterEach</span>(<span class="function">() =&gt;</span> &#123; <span class="comment">/* 每个测试后执行，如销毁wrapper */</span> &#125;);</span><br><span class="line">  <span class="title function_">afterAll</span>(<span class="function">() =&gt;</span> &#123; <span class="comment">/* 所有测试结束后执行，如恢复mock */</span> &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ⑤ 各个测试用例（it/test）</span></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;场景1：默认状态渲染&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;);</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;场景2：点击触发事件&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;);</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;场景3：传入props变化&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123; ... &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ⑥ 可选的嵌套 describe（分组测试）</span></span><br><span class="line">  <span class="title function_">describe</span>(<span class="string">&#x27;交互行为分组&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&#x27;点击按钮1&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;);</span><br><span class="line">    <span class="title function_">it</span>(<span class="string">&#x27;点击按钮2&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>组件测试的it执行用例会比函数测试更复杂一些：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;xxx 功能描述&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">//挂载组件</span></span><br><span class="line">  wrapper = <span class="title function_">mount</span>(<span class="title class_">MyComponent</span>, &#123; <span class="attr">propsData</span>: &#123; <span class="attr">visible</span>: <span class="literal">true</span> &#125; &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//触发操作</span></span><br><span class="line">  <span class="keyword">await</span> wrapper.<span class="title function_">find</span>(<span class="string">&#x27;.close-btn&#x27;</span>).<span class="title function_">trigger</span>(<span class="string">&#x27;click&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//验证结果</span></span><br><span class="line">  <span class="title function_">expect</span>(wrapper.<span class="title function_">emitted</span>().<span class="property">close</span>).<span class="title function_">toBeTruthy</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里需要记住几个较为核心的生命周期钩子用法：</p>
+<table>
+<thead>
+<tr>
+<th>钩子</th>
+<th>执行时机</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>beforeAll</code></td>
+<td>所有测试前执行一次</td>
+<td>设置全局 mock、全局配置</td>
+</tr>
+<tr>
+<td><code>beforeEach</code></td>
+<td>每个 <code>it</code> 前执行</td>
+<td>初始化 wrapper、重置数据</td>
+</tr>
+<tr>
+<td><code>afterEach</code></td>
+<td>每个 <code>it</code> 后执行</td>
+<td>销毁 wrapper、清理定时器</td>
+</tr>
+<tr>
+<td><code>afterAll</code></td>
+<td>所有测试结束后执行一次</td>
+<td>清理全局资源</td>
+</tr>
+</tbody>
+</table>
+<h4 id="以一个弹窗组件的单元测试为例"><a class="markdownIt-Anchor" href="#以一个弹窗组件的单元测试为例"></a> 以一个弹窗组件的单元测试为例</h4>
+<p>举一个例子，我们对一个elementUI风格的modal(弹窗)组件进行单元测试。假设我们有一个这样的modal组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- <span class="title class_">Modal</span>.<span class="property">vue</span> --&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">&quot;visible&quot;</span> <span class="attr">class</span>=<span class="string">&quot;modal&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-content&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;close-btn&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;close&quot;</span>&gt;</span>关闭<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">name</span>: <span class="string">&#x27;Modal&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">props</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="attr">visible</span>: &#123; <span class="attr">type</span>: <span class="title class_">Boolean</span>, <span class="attr">default</span>: <span class="literal">false</span> &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="title function_">close</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      <span class="variable language_">this</span>.$emit(<span class="string">&#x27;close&#x27;</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>我们使用jest测试框架，对这个vue组件进行测试，我们可以列出一些组件的测试目标：</p>
+<table>
+<thead>
+<tr>
+<th>测试点</th>
+<th>要验证的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 默认不显示</td>
+<td><code>visible=false</code> 时，DOM 中不应有 <code>.modal</code></td>
+</tr>
+<tr>
+<td>2. 显示弹窗</td>
+<td>传入 <code>visible=true</code> 时，出现 <code>.modal</code></td>
+</tr>
+<tr>
+<td>3. 点击关闭按钮</td>
+<td>点击 <code>.close-btn</code> 时，触发 <code>close</code> 事件</td>
+</tr>
+<tr>
+<td>4. 支持 slot 内容</td>
+<td>传入 slot 内容应正确渲染</td>
+</tr>
+<tr>
+<td>5. 清理挂载节点</td>
+<td>每次测试后清理 DOM（afterEach）</td>
+</tr>
+</tbody>
+</table>
+<p>然后再将上述思路整理为测试文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Modal.test.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">&#x27;@vue/test-utils&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Modal</span> <span class="keyword">from</span> <span class="string">&#x27;../components/Modal.vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;Modal 组件测试&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> wrapper;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每次测试后清理，防止残留 DOM</span></span><br><span class="line">  <span class="title function_">afterEach</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (wrapper) &#123;</span><br><span class="line">      wrapper.<span class="title function_">destroy</span>();</span><br><span class="line">      wrapper = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;默认不显示&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    wrapper = <span class="title function_">mount</span>(<span class="title class_">Modal</span>, &#123;</span><br><span class="line">      <span class="attr">propsData</span>: &#123; <span class="attr">visible</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title function_">expect</span>(wrapper.<span class="title function_">find</span>(<span class="string">&#x27;.modal&#x27;</span>).<span class="title function_">exists</span>()).<span class="title function_">toBe</span>(<span class="literal">false</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;显示弹窗&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    wrapper = <span class="title function_">mount</span>(<span class="title class_">Modal</span>, &#123;</span><br><span class="line">      <span class="attr">propsData</span>: &#123; <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title function_">expect</span>(wrapper.<span class="title function_">find</span>(<span class="string">&#x27;.modal&#x27;</span>).<span class="title function_">exists</span>()).<span class="title function_">toBe</span>(<span class="literal">true</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;点击关闭按钮触发 close 事件&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    wrapper = <span class="title function_">mount</span>(<span class="title class_">Modal</span>, &#123;</span><br><span class="line">      <span class="attr">propsData</span>: &#123; <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">await</span> wrapper.<span class="title function_">find</span>(<span class="string">&#x27;.close-btn&#x27;</span>).<span class="title function_">trigger</span>(<span class="string">&#x27;click&#x27;</span>);</span><br><span class="line">    <span class="title function_">expect</span>(wrapper.<span class="title function_">emitted</span>().<span class="property">close</span>).<span class="title function_">toBeTruthy</span>();</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;支持 slot 内容渲染&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    wrapper = <span class="title function_">mount</span>(<span class="title class_">Modal</span>, &#123;</span><br><span class="line">      <span class="attr">propsData</span>: &#123; <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      <span class="attr">slots</span>: &#123;</span><br><span class="line">        <span class="attr">default</span>: <span class="string">&#x27;&lt;p class=&quot;slot-text&quot;&gt;这是slot内容&lt;/p&gt;&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title function_">expect</span>(wrapper.<span class="title function_">find</span>(<span class="string">&#x27;.slot-text&#x27;</span>).<span class="title function_">text</span>()).<span class="title function_">toBe</span>(<span class="string">&#x27;这是slot内容&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="配置cicd流水线自动执行"><a class="markdownIt-Anchor" href="#配置cicd流水线自动执行"></a> 配置CI/CD流水线自动执行</h4>
+<h3 id="codesandbox尝试"><a class="markdownIt-Anchor" href="#codesandbox尝试"></a> codesandbox尝试</h3>
+<p>为了实践一下，建了一个nodejs的沙箱环境，安装如下依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue@2 @vue/test-utils jest vue-jest babel-jest babel-core@^7.0.0-bridge.0 --save-dev</span><br></pre></td></tr></table></figure>
+<p>sandbox项目结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sandbox/</span><br><span class="line">├── package.json           # 管理依赖和脚本</span><br><span class="line">├── jest.config.js         # Jest 配置文件</span><br><span class="line">├── babel.config.js        # Babel 转译配置</span><br><span class="line">└── src/</span><br><span class="line">    ├── components/</span><br><span class="line">    │   └── Modal.vue</span><br><span class="line">    └── __tests__/</span><br><span class="line">        └── modal.test.js  # 组件测试</span><br></pre></td></tr></table></figure>
+<p>我这里使用的是vue2的框架做组件测试，jest测试框架是在Node环境下运行测试，而Vue组件需要依赖浏览器环境语法，所以需要一些转译方法将它们转成node可执行的JS，尤其需要注意的是CommonJS与ESM语法的不同，不要混用两者。</p>
+<blockquote>
+<ul>
+<li><strong>CommonJS（CJS）</strong> → <code>require()</code>、<code>module.exports</code></li>
+<li><strong>ES Module（ESM）</strong> → <code>import ... from</code>、<code>export default</code></li>
+<li>Node.js 默认识别 <code>.cjs</code> 为 CommonJS，<code>.mjs</code> 或 <code>&quot;type&quot;</code>: <code>&quot;module&quot;</code> 为 ESM。</li>
+</ul>
+</blockquote>
+<p>这里还有一个可能遇到的问题就是：</p>
+<blockquote>
+<p>Jest encountered an unexpected token<br />
+Unexpected token ‘export’</p>
+</blockquote>
+<p>这是一个可能遇到的转译问题，一个解决方案是使用Babel，来理解ES6的导入导出语法。</p>
+<p><strong>babel.config.js</strong>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">presets</span>: [<span class="string">&quot;@babel/preset-env&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比较菜的前端同学（比如我），可能不是特别清楚babel到底是啥，补一个好记的理解：</p>
+<blockquote>
+<p>Babel 是一个 JavaScript 编译器，用来把新版本的 JS 语法转换成旧版本浏览器或 Node.js 能理解的代码。</p>
+</blockquote>
+<p><strong>jest.config.js</strong>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">moduleFileExtensions</span>: [<span class="string">&quot;js&quot;</span>, <span class="string">&quot;json&quot;</span>, <span class="string">&quot;vue&quot;</span>],</span><br><span class="line">  <span class="attr">transform</span>: &#123;</span><br><span class="line">    <span class="string">&quot;^.+\\.js$&quot;</span>: <span class="string">&quot;babel-jest&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.*\\.(vue)$&quot;</span>: <span class="string">&quot;@vue/vue2-jest&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">moduleFileExtensions</span>: [<span class="string">&quot;js&quot;</span>, <span class="string">&quot;json&quot;</span>, <span class="string">&quot;vue&quot;</span>],</span><br><span class="line">  <span class="attr">testEnvironment</span>: <span class="string">&quot;jsdom&quot;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>完成配置之后，可以用<code>npm test</code>执行测试：</p>
+<p>执行单元测试成功效果如下：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251008162516.png" alt="" /></p>
+<p>附上沙箱的链接，里面会有可用的依赖配置：<br />
+<a target="_blank" rel="noopener" href="https://codesandbox.io/p/devbox/76nwfl">unit test📦</a></p>
+<h2 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h2>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GQ4y1N7xj/?share_source=copy_web&amp;vd_source=2579c54d85726afe052a61af08f9e684">mocha是一个功能丰富的javascript测试框架</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6907555445628469255">Node.js单元测试 – 测试工具篇</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/JavaScript/"># JavaScript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/08/%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">虚拟滚动实现方法总结</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
