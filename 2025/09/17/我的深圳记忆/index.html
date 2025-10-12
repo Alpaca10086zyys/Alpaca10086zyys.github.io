@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>我的深圳记忆 | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">我的深圳记忆</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 17, 2025&nbsp;&nbsp;23:51:53</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/">日记/随笔</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="关于实习和面试"><a class="markdownIt-Anchor" href="#关于实习和面试"></a> 关于实习和面试</h2>
+<p>今天是9.17号，推荐免试研究生名单公示结束前的最后一天。</p>
+<p>在今天这个节骨眼上，我终于收到了美团的意向书，然后紧接着放弃了保研，这个我追逐了整整两年的东西。</p>
+<p>放弃的原因暂且按下不谈，不管选择什么路都只是选择，没有什么选择是更好的，只有什么选择是更适合我的。</p>
+<p>这里我想仔细地记录我在深圳遇到的好人们，非常非常感谢所有帮助过我的朋友们，感谢所有愿意托举我幼稚莽撞的idea的前辈们。</p>
+<p>（排名不分先后哈哈哈，其实无人在意，大概率只有我自己会回头再看）</p>
+<p>感谢愿意给我机会来鹅厂实习的诸位面试官，如果不是你们的宽宏大量，我应该没有机会在深圳度过这样一段充实的日子，是各位面试官给了我来这里学习生活的机会，让我有脱胎换骨的可能。</p>
+<p>感谢我实习的mentor和leader，我深知自己绝非天才，资历也不足，landing时少不了问一些蠢问题，虽然mentor有时候会被我气笑，也有恨铁不成钢的时候，但每次都还是耐心地解答我的问题，有时也在饭桌上称赞我，让我得以保留那一方自尊心。<br />
+刚刚得知自己转正失败的那天其实并未太过伤心，但是leader花了将近两个小时和我在茶水间聊天，一遍一遍告诉我我很聪明千万不要泄气，总是觉得这不过是安慰的话语的我，竟然在那一天那一刻真的相信自己是一个聪明的小孩。我深知像leader这样级别的人，有许多更重要的事情要做，可是他却仍然花了不少的时间去照拂一个微不足道还转正失败的实习生，真希望有一天，我也可以成为别人至暗时刻里的发光路牌。</p>
+<p>感谢我的学长土豆哥，在我狂砍十次面试失败之后仍然会鼓励我安慰我，最终看着我幸运地得到暑期实习的入场券。而且在深圳好无聊的时候，跟土豆哥东跑西跑开图，把深圳玩了个七七八八，比我对南京还要熟了。</p>
+<p>感谢土豆哥的朋友DQ，是我在深圳认识到的第二个前辈，我和他通话求助就业还是保研的抉择的时候，领着我一点点想清楚自己想要什么。</p>
+<p>感谢在第一天绕圈介绍的时候第一个给我发来问候消息的teresa，在我初来乍到的一个月里陪伴了我超级多时间，也祝她在WXG能够实现自己的职业理想，成为超级棒的工程师。</p>
+<p>感谢素未谋面的前同事实习生rainDrop，也许是有过相同境遇的人最能共情，许多个日子一起鏖战秋招，如此深厚的革命友谊，伟大无需多言。</p>
+<p>感谢我秋招对接的许多hr的其中一个hr同学，感谢他在众多冰冷的面试流程对接里带来一点人情味，也许他并非最专业的hr，但是却在繁忙的对接中，给了焦急的我他能给的最多的善意。</p>
+<p>感谢给我模拟面试的同事ivor，帮开了这么多小灶，而且居然幸运地成为了朋友，还是两片相似的树叶!cheers!</p>
+<p>感谢焕师傅在我转正失败后在内部群帮忙推荐，虽然他并未告知我，但是真的感谢感谢，所有别人对我的好我都要记住。</p>
+<p><mark><mark>下面是各种感谢面试官分割线</mark></mark></p>
+<hr />
+<p>作为传奇耐面王，其实我根本记不住每个面试官的脸，但是我却很认真地记住了他们说的一些话：</p>
+<blockquote>
+<p>不要担心，人生路长着，不管你选择了什么路，你记住一点，其实人是终生学习的，你只要有终身学习的意识，其实学历没那么重要，你也不要焦虑这个，即使现在没有拿到好工作，5年，10年之后，你的能力、认知和经验远远超过别人。（这段真的听哭了）</p>
+<p>– from 最棒的旭东</p>
+</blockquote>
+<blockquote>
+<p>我觉得你是有值得培养的地方的，我会推荐你去下一轮，但是由于你的经验还是不足，你也许会在下一面被挂，如果这个事情真的发生了，也请你不要气馁，不要对自己失去信心，加油。</p>
+<p>– from 最特别的面试风格的面试官老师</p>
+</blockquote>
+<p>还有碰到许多其他的很友善的面试官，他们的人格魅力和专业才能让我特别希望能与之共事，希望能成为和他们一样棒的人，真的很感谢他们在系统匹配的面试之余可以给手忙脚乱的我一点点善意。</p>
+<h2 id="关于深圳这个城市"><a class="markdownIt-Anchor" href="#关于深圳这个城市"></a> 关于深圳这个城市</h2>
+<p>受不了了，租的这个公寓我太满意了舍不得走了🤩。</p>
+<p>都说人只有在举目无亲的地方才能做自己，有朋友跟我说希望能去有亲戚帮扶的城市，可是我真的觉得，从小到大，在远离家乡的这段时间里，是我最最自由的一段时间，晚上下班走在回家的路上，我感觉风里都是自由和年轻的味道。</p>
+<p>也许在未来的某一天，还会回到深圳，可21岁在深圳度过的夏天，我曾经历过的一天天的焦虑和欣喜的交织都不会再回来，这个夏天在这里，我所熟悉和适应了的生活，会渐渐离我远去，然后成为别人的生活。</p>
+<p>（但是蟑螂还是远一点比较好，不要渐渐离我远去，请用最快的光速远去吧，求求你了，德国小蠊，我宣布你赢了）</p>
+<p>然后还有深圳的各种公园，以及去过一次的溪木素年书屋，点一杯柠檬水，可以安静地看一天书。</p>
+<p>不知道以后回忆起在深圳待着的时光会不会感觉就像一场梦。</p>
+<p>我真害怕长大啊。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%97%A5%E8%AE%B0-%E9%9A%8F%E7%AC%94/"># 日记/随笔</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/14/%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%9F/">什么是单元测试？</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
