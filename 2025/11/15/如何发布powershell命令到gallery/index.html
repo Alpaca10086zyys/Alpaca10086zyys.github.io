@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Alpaca Zhang">
+
+
+
+
+
+<title>如何发布powershell命令到gallery | Alpaca Zhang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Alpaca&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Alpaca&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">如何发布powershell命令到gallery</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Alpaca Zhang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 15, 2025&nbsp;&nbsp;15:04:18</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p>经典背景介绍：这一切的背景还是因为最近实习离职了之后用回了windows开发，windows上面的tree命令感觉实在是不好用，因为不能控制<code>-L</code>深度，几番求索之后没找到一个喜欢的命令，最后决定是自己写一个工具命令，经过调试之后觉得还不错挺好用的，然后我就在想能不能跟npm包一样发布到大家都可用的那种社区平台上，然后我找到了powershell gallery.</p>
+</blockquote>
+<h2 id="创建powershell-gallery账户"><a class="markdownIt-Anchor" href="#创建powershell-gallery账户"></a> 创建Powershell Gallery账户</h2>
+<p>点此创建账户👉：<a target="_blank" rel="noopener" href="https://PowerShellGallery.com">https://PowerShellGallery.com</a></p>
+<p>看到这里就说明创建完成：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251115160829.png" alt="创建完成" /></p>
+<p>然后点击用户名选择API Keys，创建一个新的api-key：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251115162252.png" alt="配置key" /></p>
+<p>然后get到key：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251115162404.png" alt="" /></p>
+<h2 id="使用psscriptanalyzer"><a class="markdownIt-Anchor" href="#使用psscriptanalyzer"></a> 使用PSScriptAnalyzer</h2>
+<p>这是微软官方文档建议完成的优先级第一的步骤： 使用PSScriptAnalyzer识别PowerShell代码中最常见的问题，并且通常会提供有关如何解决问题的建议。</p>
+<h3 id="1-安装-psscriptanalyzer"><a class="markdownIt-Anchor" href="#1-安装-psscriptanalyzer"></a> 1. 安装 PSScriptAnalyzer</h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> PSScriptAnalyzer <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+<p>查看版本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Module</span> PSScriptAnalyzer <span class="literal">-ListAvail</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-对脚本进行扫描"><a class="markdownIt-Anchor" href="#2-对脚本进行扫描"></a> 2. 对脚本进行扫描</h3>
+<p>比如这是我的脚本路径：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\TreeView-PS\TreeView.ps1</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-ScriptAnalyzer</span> <span class="literal">-Path</span> <span class="string">&quot;D:\TreeView-PS\TreeView.ps1&quot;</span></span><br></pre></td></tr></table></figure>
+<p>会输出类似：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RuleName                            Severity Line Message</span><br><span class="line">--------                            -------- ---- -------</span><br><span class="line">PSAvoidUsingWriteHost               Warning  33  FileTree.cmd uses Write-Host; use Write-Output instead.</span><br><span class="line">PSUseDeclaredVarsMoreThanAssignments Warning ...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251115174945.png" alt="扫描pester版本" /></p>
+<p>参考这里的问题把问题都解决。直到使用扫描命令无输出。</p>
+<h3 id="3-对整个模块扫描"><a class="markdownIt-Anchor" href="#3-对整个模块扫描"></a> 3. 对整个模块扫描</h3>
+<p>如果你组织成模块结构：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TreeView/</span><br><span class="line">  TreeView.psd1</span><br><span class="line">  TreeView.psm1</span><br></pre></td></tr></table></figure>
+<p>运行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-ScriptAnalyzer</span> <span class="literal">-Path</span> <span class="string">&quot;TreeView&quot;</span> <span class="literal">-Recurse</span></span><br></pre></td></tr></table></figure>
+<hr />
+<h3 id="4-自动修复如果可能"><a class="markdownIt-Anchor" href="#4-自动修复如果可能"></a> 4. 自动修复（如果可能）</h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-ScriptAnalyzer</span> <span class="literal">-Path</span> .\TreeView.ps1 <span class="literal">-Fix</span></span><br></pre></td></tr></table></figure>
+<p>不是所有规则都能自动修，但能自动 fix 的就会帮你处理。</p>
+<h3 id="5-发布前自动检查"><a class="markdownIt-Anchor" href="#5-发布前自动检查"></a> 5. 发布前自动检查</h3>
+<p>可以在发布前先跑：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-ScriptAnalyzer</span> <span class="literal">-Path</span> . <span class="literal">-Recurse</span> <span class="literal">-Severity</span> Warning,Error</span><br></pre></td></tr></table></figure>
+<p>如果未来用 GitHub Actions 发布模块，可以加：</p>
+<p><code>.github/workflows/lint.yml</code>：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Lint</span> <span class="string">PowerShell</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>, <span class="string">pull_request</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">analyze:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">windows-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">PSScriptAnalyzer</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">Install-Module</span> <span class="string">PSScriptAnalyzer</span> <span class="string">-Force</span> <span class="string">-Scope</span> <span class="string">CurrentUser</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">Analyzer</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">Invoke-ScriptAnalyzer</span> <span class="string">-Path</span> <span class="string">.</span> <span class="string">-Recurse</span> <span class="string">-Severity</span> <span class="string">Warning,Error</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用pester进行单元测试"><a class="markdownIt-Anchor" href="#使用pester进行单元测试"></a> 使用Pester进行单元测试</h2>
+<h3 id="安装现代版本的pester"><a class="markdownIt-Anchor" href="#安装现代版本的pester"></a> 安装现代版本的Pester</h3>
+<blockquote>
+<p>Windows 10 / Windows Server 2016 及更高版本预装了 Pester 3.4.0 版本。此内置版本无法使用简单的Update-Modulecmdlet 进行更新。您需要执行并行安装才能开始使用最新版本的 Pester。</p>
+<p>内置版本由微软签名，而较新的版本由社区维护并使用不同的证书签名，这Install-Module有时会导致出现错误，要求我们接受新的发布者证书。</p>
+<p><a target="_blank" rel="noopener" href="https://pester.dev/docs/introduction/installation#installing-from-powershell-gallery">Installation and Update | Pester</a></p>
+</blockquote>
+<p>首先安装Pester 5.x 现代版本，由于系统里预置了不再更新的3.x， 所以安装新版应当使用参数跳过系统检查：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck</span><br></pre></td></tr></table></figure>
+<p>安装完成之后可以用此命令验证版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Module -ListAvailable Pester</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116150704.png" alt="" /></p>
+<p>看到有了5.7.1就说明就绪了，然后最好是卸载已加载的Pester3，否则不会用5.x版本，运行下面命令卸载靠前的版本并手动加载新版（5.0.0以后的版本）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Remove-Module Pester -Force -ErrorAction SilentlyContinue</span><br><span class="line">Import-Module Pester -MinimumVersion 5.0.0 -Force</span><br></pre></td></tr></table></figure>
+<p>现在再看一下当前模块版本：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Get-Module Pester).Version</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PS D:\TreeView-PS&gt; (Get-Module Pester).Version</span><br><span class="line"></span><br><span class="line">Major  Minor  Build  Revision</span><br><span class="line">-----  -----  -----  --------</span><br><span class="line">5      7      1      -1</span><br></pre></td></tr></table></figure>
+<h3 id="执行测试"><a class="markdownIt-Anchor" href="#执行测试"></a> 执行测试</h3>
+<p>然后准备好测试脚本，项目目录如：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">D:\TreeView-PS</span><br><span class="line">├── 📁 Private                    <span class="comment"># 私有方法，不导出</span></span><br><span class="line">│   ├── 📄 AnsiColors.ps1</span><br><span class="line">│   ├── 📄 Get-Color.ps1</span><br><span class="line">│   ├── 📄 Get-Icon.ps1</span><br><span class="line">│   ├── 📄 Show-Tree.ps1</span><br><span class="line">│   └── 📄 Write-OutOrHost.ps1</span><br><span class="line">├── 📁 Public</span><br><span class="line">│   └── 📄 TreeView.ps1           <span class="comment"># 主函数</span></span><br><span class="line">├── 📁 Tests</span><br><span class="line">│   └── 📄 TreeView.Tests.ps1</span><br><span class="line">├── 📄 TreeView.psd1</span><br><span class="line">└── 📄 TreeView.psm1</span><br></pre></td></tr></table></figure>
+<p>在仓库根目录执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行目录下所有测试</span></span><br><span class="line">Invoke-Pester -Path .\Tests -Output Detailed</span><br></pre></td></tr></table></figure>
+<p>效果如下：<br />
+<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116170759.png" alt="执行测试效果" /></p>
+<h3 id="一个测试内部模块未导出的function的方法"><a class="markdownIt-Anchor" href="#一个测试内部模块未导出的function的方法"></a> 一个测试内部模块未导出的function的方法</h3>
+<blockquote>
+<p>在真实模块设计中，不推荐导出内部函数（Private Functions）。<br />
+例如 Get-Icon / Get-Color 这类内部辅助函数不应该成为模块的对外 API。</p>
+</blockquote>
+<p>如果你的测试脚本里试图访问模块内的函数但却没有导出，可能会出现如下报错：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CommandNotFoundException: 无法将“Get-Color”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，然后再试一次。</span><br></pre></td></tr></table></figure>
+<p>可以采用这个办法–<strong>Dot Source</strong>：</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BeforeAll &#123;</span><br><span class="line">    <span class="comment"># 导入模块</span></span><br><span class="line">    <span class="built_in">Import-Module</span> <span class="string">&quot;<span class="variable">$PSScriptRoot</span>\..\TreeView.psm1&quot;</span> <span class="literal">-Force</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># dot-source 私有函数，仅测试用</span></span><br><span class="line">    . <span class="string">&quot;<span class="variable">$PSScriptRoot</span>\..\Private\Get-Icon.ps1&quot;</span></span><br><span class="line">    . <span class="string">&quot;<span class="variable">$PSScriptRoot</span>\..\Private\Get-Color.ps1&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试覆盖率报告"><a class="markdownIt-Anchor" href="#测试覆盖率报告"></a> 测试覆盖率报告</h3>
+<p>如需同时生成覆盖率，可以参考这个文档：<a target="_blank" rel="noopener" href="https://pester.dev/docs/usage/code-coverage">Generating Code Coverage Metrics | Pester</a></p>
+<p>贴一个例子：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create a Pester configuration object using `New-PesterConfiguration`</span></span><br><span class="line"><span class="variable">$config</span> = New-PesterConfiguration</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the test path to specify where your tests are located. In this example, we set the path to the current directory. Pester will look into all subdirectories.</span></span><br><span class="line"><span class="variable">$config</span>.Run.Path = <span class="string">&quot;.\Tests&quot;</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Enable Code Coverage</span></span><br><span class="line"><span class="variable">$config</span>.CodeCoverage.Enabled = <span class="variable">$true</span></span><br><span class="line"> </span><br><span class="line"><span class="variable">$config</span>.CodeCoverage.Path = <span class="string">&quot;.&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Run Pester tests using the configuration you&#x27;ve created</span></span><br><span class="line">Invoke-Pester -Configuration <span class="variable">$config</span></span><br></pre></td></tr></table></figure>
+<p>我查看了一下为自己的覆盖率：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Starting discovery <span class="keyword">in</span> 1 files.</span><br><span class="line">Discovery found 10 tests <span class="keyword">in</span> 88ms.</span><br><span class="line">Starting code coverage.</span><br><span class="line">Running tests.</span><br><span class="line">[+] TreeView.Tests.ps1 995ms (543ms|369ms)</span><br><span class="line">Tests completed <span class="keyword">in</span> 1.01s</span><br><span class="line">Tests Passed: 10, Failed: 0, Skipped: 0, Inconclusive: 0, NotRun: 0</span><br><span class="line">Processing code coverage result.</span><br><span class="line">Covered 37.18% / 75%. 234 analyzed Commands <span class="keyword">in</span> 10 Files.</span><br></pre></td></tr></table></figure>
+<p>可以看到我这个分支覆盖率还很低，不过这并不是本博客的重点，至于提高覆盖率可以通过其他的手段来实现。</p>
+<h2 id="推送到powershell-gallery"><a class="markdownIt-Anchor" href="#推送到powershell-gallery"></a> 推送到Powershell Gallery</h2>
+<h3 id="注册-powershell-gallery-api-key"><a class="markdownIt-Anchor" href="#注册-powershell-gallery-api-key"></a> 注册 PowerShell Gallery API Key</h3>
+<p>还记得我们之前是有得到了一个api-key的，你应当已经将这个api-key给记在某处。</p>
+<h3 id="生成psd1打包"><a class="markdownIt-Anchor" href="#生成psd1打包"></a> 生成psd1（打包）</h3>
+<p>使用下列命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">New-ModuleManifest -Path ./TreeView.psd1 `</span><br><span class="line">    -RootModule TreeView.psm1 `</span><br><span class="line">    -ModuleVersion <span class="string">&quot;1.0.0&quot;</span> `</span><br><span class="line">    -Author <span class="string">&quot;你的名字&quot;</span> `</span><br><span class="line">    -Description <span class="string">&quot;A tree command for Windows with icons and depth support.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>生成的psd1内容像这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    RootModule        = &#x27;TreeView.psm1&#x27;</span><br><span class="line">    ModuleVersion     = &#x27;1.0.0&#x27;</span><br><span class="line">    GUID              = &#x27;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#x27;</span><br><span class="line">    Author            = &#x27;你&#x27;</span><br><span class="line">    CompanyName       = &#x27;你&#x27;</span><br><span class="line">    Description       = &#x27;Linux tree-like directory viewer with icon mode.&#x27;</span><br><span class="line">    PowerShellVersion = &#x27;5.1&#x27;</span><br><span class="line">    FunctionsToExport = @(&#x27;TreeView&#x27;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给他改吧改吧，把信息填一填.</p>
+<h3 id="你可以选择手动发布简单好操作"><a class="markdownIt-Anchor" href="#你可以选择手动发布简单好操作"></a> 你可以选择手动发布（简单好操作）</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Publish-Module -Path .\ -Repository PSGallery -NuGetApiKey <span class="string">&#x27;&lt;your-api-key&gt;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h4 id="publish-module命令详解"><a class="markdownIt-Anchor" href="#publish-module命令详解"></a> Publish-Module命令详解</h4>
+<h5 id="1-publish-module"><a class="markdownIt-Anchor" href="#1-publish-module"></a> 1. <code>Publish-Module</code></h5>
+<p>PowerShell 内置的发布命令，用来把一个模块上传到 PowerShell Gallery。</p>
+<p>一般你的模块目录结构如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TreeView-PS/</span><br><span class="line">  TreeView.psd1</span><br><span class="line">  TreeView.psm1</span><br><span class="line">  Public/</span><br><span class="line">  Private/</span><br></pre></td></tr></table></figure>
+<p><strong>只要有 <code>.psd1</code> 就可以发布。</strong></p>
+<h5 id="2-path"><a class="markdownIt-Anchor" href="#2-path"></a> 2. <code>-Path .</code></h5>
+<p>代表“当前路径就是我要发布的模块目录”。</p>
+<p>你的执行目录一般就是模块根目录，所以写 <code>.</code> 就够了。</p>
+<p>如果放模块在子目录，可能要写成：<code>-Path ./src/TreeView</code></p>
+<h5 id="3-repository-psgallery"><a class="markdownIt-Anchor" href="#3-repository-psgallery"></a> 3. <code>-Repository PSGallery</code></h5>
+<p>指定发布目标仓库，就是官方 PowerShell Gallery。</p>
+<p>你也可以发布到私有 NuGet 服务器，但你现在用的是默认的公共仓库。</p>
+<h5 id="4-nugetapikey-your-api-key"><a class="markdownIt-Anchor" href="#4-nugetapikey-your-api-key"></a> 4. <code>-NuGetApiKey &lt;your-api-key&gt;</code></h5>
+<p>这是发布到 Gallery 的 <strong>登录凭证</strong>。</p>
+<p>PowerShell Gallery 使用 <strong>NuGet API Key</strong> 鉴权，也就是我们在Powershell Gallery申请的key。</p>
+<p>所以整句命令的意思是：</p>
+<blockquote>
+<p>使用 GitHub Actions 自动将当前目录的 PowerShell 模块上传到 PowerShell Gallery，<br />
+使用存放在环境变量中的 NuGet API Key 认证，并发布。</p>
+</blockquote>
+<h3 id="使用github-actions实现cicd推荐"><a class="markdownIt-Anchor" href="#使用github-actions实现cicd推荐"></a> 使用GitHub Actions实现CI/CD（推荐）</h3>
+<blockquote>
+<p>CI/CD 代表持续集成 (Continuous Integration)和持续交付/部署 (Continuous Delivery/Deployment)，是一种软件开发方法，通过自动化构建、测试和部署流程，实现更快、更频繁地向客户交付高质量的软件。持续集成 (CI) 侧重于开发人员频繁将代码集成到共享存储库并进行自动化测试；而持续交付/部署 (CD) 则在此基础上，自动化将变更交付到生产环境的过程。</p>
+</blockquote>
+<blockquote>
+<p>若要使 GitHub 在存储库中发现任何 GitHub Actions 工作流，必须将工作流文件保存在名为 .github/workflows 的目录中。</p>
+<p>你可以为工作流文件指定所需的任何名称，但必须使用 .yml 或 .yaml 作为文件扩展名。 YAML 通常是用于配置文件的标记语言。<br />
+– Github官方文档</p>
+</blockquote>
+<h4 id="github建仓"><a class="markdownIt-Anchor" href="#github建仓"></a> Github建仓</h4>
+<ol>
+<li>在Github上创建仓库</li>
+</ol>
+<p>建一个仓库记住url，如：<code>https://github.com/你的账号/&lt;仓库名字&gt;.git</code></p>
+<ol start="2">
+<li>本地初始化git并推送</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git init                  <span class="comment"># 如果还没初始化过</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Initial commit&quot;</span></span><br><span class="line">git branch -M main         <span class="comment"># 保证主分支是 main</span></span><br><span class="line">git remote add origin https://github.com/你的账号/&lt;仓库名字&gt;.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+<h4 id="使用github-action"><a class="markdownIt-Anchor" href="#使用github-action"></a> 使用Github Action</h4>
+<p>你需要先来到网页端，给你的仓库配置一个专用的 API Key。创建方法如图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116220312.png" alt="创建secret路径" /></p>
+<p>这个时候就把刚刚存的API Key拿出来就行，然后给他命名，以后用得上，我这里命名为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PSGalleryApiKey</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116220502.png" alt="" /></p>
+<p>在项目根目录下创建<code>./github/workflows/main.yml</code>，github的教程提供了一个模板，下面以我的方法为例解释ci/cd 工作流文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">PowerShell</span> <span class="string">Module</span> <span class="string">CI/CD</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">    <span class="attr">push:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">main</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">test-and-publish:</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">windows-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">repo</span></span><br><span class="line">              <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">PowerShell</span></span><br><span class="line">              <span class="attr">uses:</span> <span class="string">actions/setup-powershell@v3</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Pester</span></span><br><span class="line">              <span class="attr">run:</span> <span class="string">Install-Module</span> <span class="string">-Name</span> <span class="string">Pester</span> <span class="string">-Force</span> <span class="string">-Scope</span> <span class="string">CurrentUser</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">Pester</span> <span class="string">tests</span></span><br><span class="line">              <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">                  Invoke-Pester -Path .\Tests -Output Detailed</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Update</span> <span class="string">ModuleVersion</span></span><br><span class="line">              <span class="attr">shell:</span> <span class="string">pwsh</span></span><br><span class="line">              <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">                $psd1Path = &quot;.\TreeView.psd1&quot;</span></span><br><span class="line"><span class="string">                $psd1 = Get-Content $psd1Path</span></span><br><span class="line"><span class="string">                $newVersion = &quot;1.0.$env:GITHUB_RUN_NUMBER&quot;</span></span><br><span class="line"><span class="string">                $psd1 = $psd1 -replace &quot;ModuleVersion\s*=\s*&#x27;.*?&#x27;&quot;, &quot;ModuleVersion = &#x27;$newVersion&#x27;&quot;</span></span><br><span class="line"><span class="string">                Set-Content $psd1Path $psd1</span></span><br><span class="line"><span class="string"></span>              <span class="attr">env:</span></span><br><span class="line">                <span class="attr">GITHUB_RUN_NUMBER:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.run_number</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Publish</span> <span class="string">to</span> <span class="string">PSGallery</span></span><br><span class="line">              <span class="attr">if:</span> <span class="string">github.ref</span> <span class="string">==</span> <span class="string">&#x27;refs/heads/main&#x27;</span> <span class="string">&amp;&amp;</span> <span class="string">github.event_name</span> <span class="string">==</span> <span class="string">&#x27;push&#x27;</span></span><br><span class="line">              <span class="attr">env:</span></span><br><span class="line">                  <span class="string">&lt;YourKey&gt;:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.&lt;YourKey&gt;</span> <span class="string">&#125;&#125;</span></span><br><span class="line">              <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">                  <span class="string">Publish-Module</span> <span class="string">-Path</span> <span class="string">.</span> <span class="string">-NuGetApiKey</span> <span class="string">$env:&lt;YourKey&gt;</span> <span class="string">-Repository</span> <span class="string">PSGallery</span> <span class="string">-Force</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>checkout：拉取仓库代码</li>
+<li>setup PowerShell：确保 Windows runner 安装 PowerShell</li>
+<li>安装 Pester：最新版本</li>
+<li>运行单元测试：确保模块没有问题</li>
+<li>发布模块：
+<ol>
+<li>只在 main 分支 push 时触发</li>
+<li>使用仓库 Secrets 中的 PSGalleryApiKey</li>
+<li><code>-Force</code> 会覆盖同版本模块，如果你想严格控制版本可以改成自动生成新版本</li>
+</ol>
+</li>
+</ol>
+<h4 id="push后自动执行流程"><a class="markdownIt-Anchor" href="#push后自动执行流程"></a> push后自动执行流程</h4>
+<p>如下图，找到正在执行的workflow：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116222115.png" alt="" /></p>
+<p>等待执行成功或失败。</p>
+<p>然后我们可以看到这里有一个失败是啥呢，是这个-f支路没有成功：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116224035.png" alt="查看报错" /></p>
+<h4 id="no-valid-module-was-found"><a class="markdownIt-Anchor" href="#no-valid-module-was-found"></a> No valid module was found</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Line |</span><br><span class="line">   2 |  Publish-Module -Path . -NuGetApiKey $env:PSGalleryApiKey -Repository  …</span><br><span class="line">     |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">     | The specified module with path &#x27;.&#x27; was not published because no valid module was found with that path.</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116225814.png" alt="" /></p>
+<p>这个报错是因为仓库无合法模块，注意合法的ps模块必须是这样的结构，你只能用子文件夹作为目录，不能用根：</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ModuleName&gt;/</span><br><span class="line">  &lt;ModuleName&gt;.psd1</span><br><span class="line">  &lt;ModuleName&gt;.psm1</span><br></pre></td></tr></table></figure>
+<p>只要把<code>Publish-Module -Path . -NuGetApiKey $env:PSGalleryApiKey -Repository PSGallery -Force</code>改成<code>Publish-Module -Path ./&lt;结构正确的子文件夹&gt; -NuGetApiKey $env:PSGalleryApiKey -Repository PSGallery -Force</code></p>
+<p>经过坚持不懈的调试终于发布成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20251116232230.png" alt="" /></p>
+<h2 id="参考文档"><a class="markdownIt-Anchor" href="#参考文档"></a> 参考文档</h2>
+<blockquote>
+<p>ps!推荐一个可以用来快速获得md link的浏览器插件：<a target="_blank" rel="noopener" href="https://chromewebstore.google.com/detail/copy-as-markdown/fkeaekngjflipcockcnpobkpbbfbhmdn">Copy as Markdown</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/powershell/gallery/concepts/publishing-guidelines?view=powershellget-3.x">PowerShell 库发布指南和最佳做法 - PowerShell | Microsoft Learn</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/78417986/how-to-handle-dot-sourcing-in-pester-v5">PowerShell - 如何在 Pester v5 中处理点源？ - Stack Overflow</a></p>
+<p><a target="_blank" rel="noopener" href="https://pester.dev/docs/usage/code-coverage">Generating Code Coverage Metrics | Pester</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/zh/actions/tutorials/build-and-test-code/powershell">构建和测试 PowerShell - GitHub 文档</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Alpaca Zhang</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/11/14/%E3%80%90%E8%85%BE%E8%AE%AF%E9%9D%92%E7%A7%91%E3%80%91ReactNative%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80%E6%8A%80%E5%B7%A7%E9%80%9F%E8%A7%88/">【腾讯青科】ReactNative全栈开发基础实战速览</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Alpaca Zhang | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
