@@ -13,7 +13,7 @@
 
 
 
-<title>收购了Windows自带的tree，我干脆自己写了一个版本（类Linux，支持深度、图标、彩色输出） | Alpaca Zhang&#39;s Blog</title>
+<title>受够了Windows自带的tree，我干脆自己写了一个版本（类Linux，支持深度、图标、彩色输出） | Alpaca Zhang&#39;s Blog</title>
 
 
 
@@ -127,11 +127,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">收购了Windows自带的tree，我干脆自己写了一个版本（类Linux，支持深度、图标、彩色输出）</h1>
+            <h1 class="post-title">受够了Windows自带的tree，我干脆自己写了一个版本（类Linux，支持深度、图标、彩色输出）</h1>
             
                 <div class="post-meta">
                     
@@ -149,7 +214,112 @@
         </header>
 
         <div class="post-content">
-            
+            <p>我一直觉得 Windows 自带的 <code>tree</code> 命令非常可惜。</p>
+<p>功能半残、输出不友好、不能限制深度、没有 Unicode、没有颜色、没有图标……<br />
+真正想用它来查看目录结构的时候，感觉自己回到了上个世纪。</p>
+<p>既然如此，我干脆就自己写了一个。</p>
+<p>于是就有了 <a target="_blank" rel="noopener" href="https://github.com/Alpaca10086zyys/TreeView-PS"><strong>TreeView — 现代化的 Windows PowerShell 目录树工具</strong></a>。<br />
+这篇文章就来分享一下我为什么要做它，它能解决什么痛点，以及你怎么用它最快上手。</p>
+<hr />
+<h2 id="我为什么要做-treeview"><a class="markdownIt-Anchor" href="#我为什么要做-treeview"></a> 💡 我为什么要做 TreeView？</h2>
+<p>讲真，我做这个工具的起因非常简单：</p>
+<ul>
+<li>我经常需要给别人(包括AI)展示项目结构</li>
+<li>Windows 的 <code>tree</code> 不能限制深度（Linux 有 <code>-L</code>）</li>
+<li>不能显示图标，不直观</li>
+<li>中文文件名会错位</li>
+<li>PowerShell 和 Windows Terminal 这么现代化了，目录树却还停留在 90 年代</li>
+<li>市面上竟然没有一个好用的替代品（我搜了好几圈，只能找到npm包）</li>
+</ul>
+<p>而我日常也喜欢做小工具，越写越觉得：</p>
+<p><strong>“不如我自己做一个，可能别人也会用吧？”</strong></p>
+<p>所以 TreeView 就这么诞生了。</p>
+<hr />
+<h2 id="treeview-能做什么最核心的亮点"><a class="markdownIt-Anchor" href="#treeview-能做什么最核心的亮点"></a> 🚀 TreeView 能做什么？（最核心的亮点）</h2>
+<p>TreeView 的目标很明确：</p>
+<blockquote>
+<p><strong>做一个比 Windows 自带的 tree 好用 10 倍的工具。</strong></p>
+</blockquote>
+<p>为了这个目标，它实现了几个重要能力：</p>
+<hr />
+<h3 id="1-支持深度控制-depth-l"><a class="markdownIt-Anchor" href="#1-支持深度控制-depth-l"></a> ✨ 1. 支持深度控制（<code>-Depth</code> / <code>-L</code>）</h3>
+<p>Windows 原生 tree 死活做不到这一点。</p>
+<p>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-L</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>完全对齐 Linux 的 <code>tree -L</code>.</p>
+<hr />
+<h3 id="2-支持文件图标-icon"><a class="markdownIt-Anchor" href="#2-支持文件图标-icon"></a> ✨ 2. 支持文件图标（<code>-Icon</code>）</h3>
+<p>非常直观：</p>
+<ul>
+<li>📁 文件夹</li>
+<li>📄 普通文件</li>
+<li>🖼️ 图片</li>
+<li>🎬 视频</li>
+<li>🧱 二进制</li>
+<li>等等……</li>
+</ul>
+<p>项目结构一眼就能看出类型。</p>
+<hr />
+<h3 id="3-使用-unicode-树形字符"><a class="markdownIt-Anchor" href="#3-使用-unicode-树形字符"></a> ✨ 3. 使用 Unicode 树形字符</h3>
+<p>养眼的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">├──</span><br><span class="line">└──</span><br><span class="line">│</span><br></pre></td></tr></table></figure>
+<p>再也不是 Windows 的那种 ASCII 方框了。</p>
+<hr />
+<h3 id="4-支持彩色输出-c"><a class="markdownIt-Anchor" href="#4-支持彩色输出-c"></a> ✨ 4. 支持彩色输出（<code>-C</code>）</h3>
+<p>漂亮而且一眼区分文件夹 / 文件。</p>
+<hr />
+<h3 id="5-支持完整路径-过滤目录-显示隐藏文件"><a class="markdownIt-Anchor" href="#5-支持完整路径-过滤目录-显示隐藏文件"></a> ✨ 5. 支持完整路径、过滤目录、显示隐藏文件…</h3>
+<p>能让你写 README、截目录树图的时候不再痛苦。</p>
+<hr />
+<h3 id="6-支持-windows-powershell-51-和-powershell-7"><a class="markdownIt-Anchor" href="#6-支持-windows-powershell-51-和-powershell-7"></a> ✨ 6. 支持 Windows PowerShell 5.1 和 PowerShell 7</h3>
+<p>不挑环境，不挑机器。</p>
+<hr />
+<h2 id="如何安装"><a class="markdownIt-Anchor" href="#如何安装"></a> 📦 如何安装？</h2>
+<p>最推荐使用 PowerShell Gallery：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> TreeView <span class="literal">-Scope</span> CurrentUser <span class="literal">-Force</span></span><br></pre></td></tr></table></figure>
+<p>验证安装：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Module</span> <span class="literal">-ListAvailable</span> TreeView | <span class="built_in">Select-Object</span> Name, Version, Path</span><br></pre></td></tr></table></figure>
+<p>安装后可直接使用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview</span><br></pre></td></tr></table></figure>
+<p>如果控制台报：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview :在模块“TreeView&quot;中找到“treeview”命令，但无法加载该模块。有关详细信息，请运行“Import-Module Treeview”</span><br></pre></td></tr></table></figure>
+<p>则需要引入一下模块：</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Import-Module</span> Treeview</span><br></pre></td></tr></table></figure>
+<p>如遇脚本被阻止，请运行下列指令在当前用户通过安全策略：</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-ExecutionPolicy</span> RemoteSigned <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="常用用法示例"><a class="markdownIt-Anchor" href="#常用用法示例"></a> 📘 常用用法示例</h2>
+<p>显示三层：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-L</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>显示图标：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-Icon</span></span><br></pre></td></tr></table></figure>
+<p>显示完整路径：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="operator">-f</span></span><br></pre></td></tr></table></figure>
+<p>只看目录：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-d</span></span><br></pre></td></tr></table></figure>
+<p>显示隐藏文件：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-a</span></span><br></pre></td></tr></table></figure>
+<p>启用彩色输出：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeview <span class="literal">-C</span></span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="输出示例"><a class="markdownIt-Anchor" href="#输出示例"></a> 📊 输出示例</h2>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">📁 Project</span><br><span class="line">├── 📁 src</span><br><span class="line">│   ├── 📄 main.js</span><br><span class="line">│   └── 🖼️ logo.png</span><br><span class="line">├── 📁 docs</span><br><span class="line">└── 🎬 demo.mp4</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="我写-treeview-的一些心得"><a class="markdownIt-Anchor" href="#我写-treeview-的一些心得"></a> 🛠 我写 TreeView 的一些心得</h2>
+<p>写完这个工具，我最大的感受是：</p>
+<p><strong>PowerShell 的生态确实需要更多现代化的小工具。</strong></p>
+<p>Windows Terminal 已经很现代了，但工具还是 20 年前的那批。<br />
+TreeView 的作用有点像“补一个本来就应该有的能力”。</p>
+<p>无论是写文档、做演示，还是查看项目结构，它都比 tree 灵活。</p>
+<hr />
+<h2 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 🔚 最后</h2>
+<p>实现的过程我也记录在我的另一篇博客里了：<a target="_blank" rel="noopener" href="https://alpaca10086zyys.github.io/2025/11/15/%E5%A6%82%E4%BD%95%E5%8F%91%E5%B8%83powershell%E5%91%BD%E4%BB%A4%E5%88%B0gallery/">如何发布powershell命令到gallery | Alpaca Zhang’s Blog</a></p>
+<p>如果你觉得 TreeView 对你有帮助，<br />
+欢迎 GitHub 点个 ⭐ 支持一下：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Alpaca10086zyys/TreeView-PS">Alpaca10086zyys/TreeView-PS</a></p>
+<p>我也会持续更新，加入更多你们需要的能力。<br />
+欢迎提 Issue、PR，或者告诉我你希望 TreeView 还能做什么。</p>
+
         </div>
 
         
