@@ -13,7 +13,7 @@
 
 
 
-<title>Mac mini如何0帧起手 | Alpaca Zhang&#39;s Blog</title>
+<title>你的iTerm2和我的iTerm2好像不一样：写给不爱看官方doc的宝宝 | Alpaca Zhang&#39;s Blog</title>
 
 
 
@@ -203,7 +203,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Mac mini如何0帧起手</h1>
+            <h1 class="post-title">你的iTerm2和我的iTerm2好像不一样：写给不爱看官方doc的宝宝</h1>
             
                 <div class="post-meta">
                     
@@ -212,7 +212,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 8, 2026&nbsp;&nbsp;22:18:23</a>
+                        Date: <a href="#">五月 13, 2026&nbsp;&nbsp;19:37:42</a>
                         </span>
                     
                     
@@ -221,59 +221,88 @@
         </header>
 
         <div class="post-content">
-            <p>几个月前，本人也是新入手了一台Mac mini, 然后开始着手配置mac上面的一些基础设施想着以后去把他作为一个家用的服务器。</p>
-<p>那么一起来看看吧。</p>
-<h2 id="0-连接世界"><a class="markdownIt-Anchor" href="#0-连接世界"></a> 0 连接世界</h2>
-<h3 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h3>
-<p>首先第一步肯定是配置魔法上网，我最常用的方案是v2rayA配合自己订阅的vpn节点.</p>
-<p>你需要先给自己安装xcode（在应用商店里），然后打开终端:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br><span class="line">sudo xcodebuild -license</span><br></pre></td></tr></table></figure>
-<p>执行上述命令来安装Command Line Tools，你将看到弹出的提示，然后选择是，并按回车.</p>
-<p>执行完毕后，使用国内镜像来安装homebrew:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/zsh -c &quot;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&quot;</span><br></pre></td></tr></table></figure>
-<p>然后跟据提示选择阿里云（推荐的源），然后按照提示source一下环境变量所在的profile就可以用<code>brew --version</code>查看安装效果.</p>
-<p>然后运行下列命令安装并启动v2raya：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install v2raya/v2raya/v2raya</span><br><span class="line">brew services start v2raya/v2raya/v2raya</span><br></pre></td></tr></table></figure>
-<p>然后去localhost对应端口访问v2raya: <a target="_blank" rel="noopener" href="http://localhost:2017">http://localhost:2017</a></p>
-<p>导入订阅，然后随便在终端里ping一个外网网址，能ping通就ok了，至此，序章完成.</p>
-<h3 id="一些其他的方案clash-verge-flclash"><a class="markdownIt-Anchor" href="#一些其他的方案clash-verge-flclash"></a> 一些其他的方案(clash verge, flclash)</h3>
-<p>由于煮啵希望可以尽可能多的尝试一些之前没有taste过的代理工具，所以这边会再介绍两种同学推荐的，并且从理论的角度去介绍一些挂代理的时候可选的网络配置.</p>
-<h2 id="1-趁手的工具"><a class="markdownIt-Anchor" href="#1-趁手的工具"></a> 1 趁手的工具</h2>
-<h3 id="优雅的终端-iterm2"><a class="markdownIt-Anchor" href="#优雅的终端-iterm2"></a> 优雅的终端 – iTerm2</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260509154331.png" alt="" /></p>
-<p>非常趁手好用的终端工具，可以做一些配置来让他更符合你自己的使用习惯：<a target="_blank" rel="noopener" href="https://iterm2.com/downloads.html">下载</a></p>
-<p>一个待填的坑：<a href="">你的iTerm2和我的iTerm2好像不一样：写给不爱看官方doc的宝宝</a></p>
-<h3 id="截图工具-snipaste"><a class="markdownIt-Anchor" href="#截图工具-snipaste"></a> 截图工具 – snipaste</h3>
-<p>好用轻量的截图工具：<a target="_blank" rel="noopener" href="https://zh.snipaste.com/download.html">下载</a></p>
-<h3 id="分屏工具-rectangle"><a class="markdownIt-Anchor" href="#分屏工具-rectangle"></a> 分屏工具 – rectangle</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260513161332096.png" alt="" /></p>
-<p>这是伟大恩师zavierli介绍给我的好用工具：<a target="_blank" rel="noopener" href="https://rectangleapp.com/">下载</a></p>
-<p>一些教程👇🏻，核心就是组合ctrl+alt键，一般也只用上下左右和uijk：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260513161952805.png" alt="" /></p>
-<h3 id="可爱的输入法-不是"><a class="markdownIt-Anchor" href="#可爱的输入法-不是"></a> 可爱的输入法 （不是）</h3>
-<p>超多可爱的皮肤，还能记录输入的字数：<a target="_blank" rel="noopener" href="https://shurufa.sogou.com/mac">下载</a></p>
-<p>我给自己买了蒜皮宝宝的输入法☝🏻🤓：<br />
-<img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260513161028326.png" alt="" /></p>
-<h2 id="2-符合geek宝宝体质的环境"><a class="markdownIt-Anchor" href="#2-符合geek宝宝体质的环境"></a> 2 符合Geek宝宝体质的环境</h2>
-<h3 id="强大的包管理器-homebrew"><a class="markdownIt-Anchor" href="#强大的包管理器-homebrew"></a> 强大的包管理器 – Homebrew</h3>
-<p>这个在QuickStart里面已经有提到了安装方法.</p>
-<h3 id="node版本管理-nvm-volta"><a class="markdownIt-Anchor" href="#node版本管理-nvm-volta"></a> Node版本管理 – NVM？ Volta！</h3>
-<h4 id="你曾经使用nvm"><a class="markdownIt-Anchor" href="#你曾经使用nvm"></a> 你曾经使用nvm</h4>
-<p>用brew安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nvm</span><br></pre></td></tr></table></figure>
-<p>安装后添加到环境变量：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.nvm</span><br><span class="line">vi ~/.zshrc # 加入一行：export NVM_DIR=&quot;$HOME/.nvm&quot;</span><br><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h4 id="然而volta将让你忘记nvm的指令"><a class="markdownIt-Anchor" href="#然而volta将让你忘记nvm的指令"></a> 然而volta将让你忘记nvm的指令</h4>
-<h2 id="3-稳健的基础设施"><a class="markdownIt-Anchor" href="#3-稳健的基础设施"></a> 3 稳健的基础设施</h2>
-<h3 id="图床管理工具-picgo"><a class="markdownIt-Anchor" href="#图床管理工具-picgo"></a> 图床管理工具 – PicGo</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260513171624279.png" alt="" /></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/molunerfinn/picgo/releases">下载</a></p>
-<p>比较方便的上传图片到图床的工具，支持很多云盘，以及Github，Gitee等托管平台，煮啵用的是Github</p>
-<h2 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h2>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://developer.baidu.com/article/details/2883554">macOS下安装Xcode Command Line Tools的详细指南-百度开发者中心</a><br />
-<a target="_blank" rel="noopener" href="https://v2raya.org/docs/prologue/quick-start/">快速上手 - v2rayA</a></p>
+            <blockquote>
+<p>不知道大家在偷偷窥屏（不是）走到同事 or 同学身旁对其亲切问候时有没有注意到过不同人使用终端的风格截然不同。有的人的终端像黑客帝国，有的人终端像上古机房。如今claude code，codex这些命令行AI cli出现后，使用终端的频率比以前高多了，我也是最近配置新到手的macmini的时候发现各种不顺（除了基础设施工具的安装之外，还有就是没有趁手的终端配置），所以觉得可以写一篇快速掌握iTerm使用技巧的说明。</p>
+<p>注：你完全不需要掌握这篇博客中提到的技巧也可以正常使用你的terminal app，但是你将错过很多很爽的体验（除非你完全不希望记忆任何hotkey）</p>
 </blockquote>
+<h2 id="快速开始"><a class="markdownIt-Anchor" href="#快速开始"></a> 快速开始</h2>
+<h3 id="trick-0-oh-my-zsh"><a class="markdownIt-Anchor" href="#trick-0-oh-my-zsh"></a> Trick 0: oh-my-zsh</h3>
+<blockquote>
+<p>Oh My Zsh will not make you a 10x developer…but you may feel like one!</p>
+</blockquote>
+<p>安装oh-my-zsh：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>然后，如果你的zshrc原本没有其他配置的话可以直接一路安装即可，安装程序会自动写入zshrc需要的配置，但如果原本有内容的话可以选择no，然后在zshrc里加入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/opt/homebrew/bin:$PATH&quot;</span><br><span class="line"></span><br><span class="line">export ZSH=&quot;$HOME/.oh-my-zsh&quot;</span><br><span class="line">ZSH_THEME=&quot;robbyrussell&quot;</span><br><span class="line"></span><br><span class="line">plugins=(git)</span><br><span class="line"></span><br><span class="line">source $ZSH/oh-my-zsh.sh</span><br></pre></td></tr></table></figure>
+<p>必装 or 必用的插件：</p>
+<ol>
+<li>zsh-autosugggestions （你输入历史命令时自动灰色提示）</li>
+<li>zsh-syntax-highlighting（命令高亮）</li>
+<li>git
+<ol>
+<li>gst、 gco、gp</li>
+</ol>
+</li>
+<li>z （目录跳转）</li>
+<li>extract (万能解压)</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># zsh-autosugggestions</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions \</span><br><span class="line"><span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span><br><span class="line"></span><br><span class="line"><span class="comment"># zsh-syntax-highlighting</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git \</span><br><span class="line"><span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<p>在zshrc里修改plugins：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">  git</span><br><span class="line">  z</span><br><span class="line">  sudo</span><br><span class="line">  extract</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">  zsh-syntax-highlighting</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="trick-1-hotkey-tab调度分屏"><a class="markdownIt-Anchor" href="#trick-1-hotkey-tab调度分屏"></a> Trick 1: Hotkey (tab调度，分屏)</h3>
+<ol>
+<li>新建窗口<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + N</span><br></pre></td></tr></table></figure>
+</li>
+<li>新建tab<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + T</span><br></pre></td></tr></table></figure>
+</li>
+<li>关闭tab/窗口<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + W</span><br></pre></td></tr></table></figure>
+</li>
+<li>搜索历史输出<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + F</span><br></pre></td></tr></table></figure>
+</li>
+<li>搜索命令历史<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + F</span><br></pre></td></tr></table></figure>
+</li>
+<li>模糊搜索历史（强烈推荐）<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⌘ + Shift + H</span><br></pre></td></tr></table></figure>
+</li>
+<li>快速挑词<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Option(也就是Alt) + &lt;-   # 左跳</span><br><span class="line">Option(也就是Alt) + -&gt;   # 右跳</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="trick-2natural-text-editing像-vscode-一样编辑命令"><a class="markdownIt-Anchor" href="#trick-2natural-text-editing像-vscode-一样编辑命令"></a> Trick 2：Natural Text Editing（像 VSCode 一样编辑命令）</h3>
+<p>在顶部找到iTerm2，然后在下拉菜单里有Setting：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alpaca10086zyys/BlogImage/20260513234122661.png" alt="" /></p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⌥←</td>
+<td>向左跳一个单词</td>
+</tr>
+<tr>
+<td>⌥→</td>
+<td>向右跳一个单词</td>
+</tr>
+<tr>
+<td>⌘←</td>
+<td>跳到行首</td>
+</tr>
+<tr>
+<td>⌘→</td>
+<td>跳到行尾</td>
+</tr>
+<tr>
+<td>⌥Delete</td>
+<td>删除前一个单词</td>
+</tr>
+<tr>
+<td>⌘Delete</td>
+<td>删除整行</td>
+</tr>
+</tbody>
+</table>
 
         </div>
 
@@ -316,10 +345,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2026/05/13/%E4%BD%A0%E7%9A%84iTerm2%E5%92%8C%E6%88%91%E7%9A%84iTerm2%E5%A5%BD%E5%83%8F%E4%B8%8D%E4%B8%80%E6%A0%B7%EF%BC%9A%E5%86%99%E7%BB%99%E4%B8%8D%E7%88%B1%E7%9C%8B%E5%AE%98%E6%96%B9doc%E7%9A%84%E5%AE%9D%E5%AE%9D/">你的iTerm2和我的iTerm2好像不一样：写给不爱看官方doc的宝宝</a>
             
-            
-            <a class="next" rel="next" href="/2025/11/17/%E5%8F%97%E5%A4%9F%E4%BA%86Windows%E8%87%AA%E5%B8%A6%E7%9A%84tree%EF%BC%8C%E6%88%91%E5%B9%B2%E8%84%86%E8%87%AA%E5%B7%B1%E5%86%99%E4%BA%86%E4%B8%80%E4%B8%AA%E7%89%88%E6%9C%AC%EF%BC%88%E7%B1%BBLinux%EF%BC%8C%E6%94%AF%E6%8C%81%E6%B7%B1%E5%BA%A6%E3%80%81%E5%9B%BE%E6%A0%87%E3%80%81%E5%BD%A9%E8%89%B2%E8%BE%93%E5%87%BA%EF%BC%89/">受够了Windows自带的tree，我干脆自己写了一个版本（类Linux，支持深度、图标、彩色输出）</a>
+            <a class="next" rel="next" href="/2026/05/08/Mac-mini%E5%A6%82%E4%BD%950%E5%B8%A7%E8%B5%B7%E6%89%8B/">Mac mini如何0帧起手</a>
             
         </section>
 
